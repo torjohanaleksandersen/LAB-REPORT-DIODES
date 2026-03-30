@@ -465,12 +465,197 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
 \end{figure}
 
 \subsection{Likeretting}
+Likeretting er prosessen med å omdanne vekselspenning (AC) til likespenning (DC). Dioder brukes ofte i likeretterkretser for å oppnå dette. Det finnes flere typer likeretterkretser, inkludert enveis og toveis likeretting, som hver har sine egne karakteristikker og bruksområder~\cite{wikipediaRectifiers}.
 
 \subsubsection{Énveis likeretter}
+I énveis likeretting vil enten den positive eller negative halvbølgen av AC-signalet bli tillatt å passere gjennom, mens den andre halvbølgen blokkeres. Dette er oppnådd ved å plassere en diode i serie med lasten. Når den positive halvbølgen av AC-signalet påføres, vil dioden lede og tillate strøm å passere gjennom lasten. Når den negative halvbølgen påføres, vil dioden blokkere strømmen, og ingen strøm vil passere gjennom lasten~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en énveis likeretter er vist i figur~\ref{fig:one_way_rectifier} og figur~\ref{fig:one_way_rectifier_in_out}.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+\draw
+(0,0) to[sV, l={$V_{in}(t)$}] (0,3)
+      to[D] (5,3)
+      to[R, l=$R_L$] (5,0)
+      to[short] (0,0);
+
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,3) {};
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (7,0) {};
+
+\draw (5,3) to[short] (Vtop) node[below] {$+$};
+\draw (5,0) to[short] (Vbot) node[above] {$-$};
+
+\node at (7, 1.5) {$V_{out}(t)$};
+
+
+\node at (0, 0)[ground] {};
+\end{circuitikz}
+\caption{Énveis likeretterkrets.}
+\label{fig:one_way_rectifier}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t$},
+    ylabel={$V$},
+    xmin=0, xmax=6.28,
+    ymin=-6, ymax=6,
+    samples=200,
+    domain=0:6.28,
+    ytick={-5,-2.5,0,2.5,5},
+    yticklabels={$-5$, $-2.5$, $0$, $2.5$, $5$},
+    xtick={3.14,6.28},
+    xticklabels={$T/2$, $T$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {5 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick
+] {max(5 * sin(deg(x)) - 0.7, 0)};
+\addlegendentry{$V_{out}$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for énveis likeretterkretsen i figur~\ref{fig:one_way_rectifier}.}
+\label{fig:one_way_rectifier_in_out}
+\end{figure}
+
+
 \subsubsection{Toveis likeretter}
+I toveis likeretting vil både den positive og negative halvbølgen av AC-signalet bli passere gjennom med samme fortegn. Dette oppnås ved å bruke en bro av fire dioder, kjent som en bro-likeretter. Broen sikrer at strøm gjennom lastmotstanden vil alltid være i samme retning, uavhengig av polariteten til inngangssignalet~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en toveis likeretter er vist i figur~\ref{fig:two_way_rectifier} og figur~\ref{fig:two_way_rectifier_in_out}.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+
+\draw(0,0) to[D] (2,2);
+\draw(0,4) to[D] (2,2);
+
+\draw(-2,2) to[D] (0,0);
+\draw(-2,2) to[D] (0,4);
+
+\draw(0,0) to[sV, l={$V_{in}(t)$}] (0,4);
+\draw(2,2) to[short] (6,2);
+\draw(6,2) to[R, l=$R_L$] (6,-2);
+\draw(6,-2) to[short] (-4,-2) to[short] (-4,2) to[short] (-2,2);
+
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (9,2) {};
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (9,-2) {};
+
+\draw (6,2) to[short] (Vtop) node[below] {$+$};
+\draw (6,-2) to[short] (Vbot) node[above] {$-$};
+
+\node at (9, 0) {$V_{out}(t)$};
+
+\end{circuitikz}
+\caption{Toveis likeretterkrets.}
+\label{fig:two_way_rectifier}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t$},
+    ylabel={$V$},
+    xmin=0, xmax=6.28,
+    ymin=-6, ymax=6,
+    samples=200,
+    domain=0:6.28,
+    ytick={-5,-2.5,0,2.5,5},
+    yticklabels={$-5$, $-2.5$, $0$, $2.5$, $5$},
+    xtick={3.14,6.28},
+    xticklabels={$T/2$, $T$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {5 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick
+] {max(abs(5*sin(deg(x))) - 1.4, 0)};
+\addlegendentry{$V_{out}$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for toveis likeretterkretsen i figur~\ref{fig:two_way_rectifier}.}
+\label{fig:two_way_rectifier_in_out}
+\end{figure}
+
+\noindent
+Kurven $V_{out}(t)$ har toppunkt ved $V_{out} = 5 - 1.4 = 3.6\text{V}$. Dette er fordi to dioder må skru på for at strømmen skal kunne passere gjennom lasten.
+
+
 \subsubsection{DC-verdi og rippel}
 
+Likespenning (DC) er en spenning med konstant polaritet, i motsetning til vekselspenning (AC) som varierer periodisk med tiden. Dersom det er en AC-spenning med et periodisk signal, er DC-verdien av denne spenningen definert som den gjennomsnittlige verdien av spenningen over en periode. For å finne DC-verdien av en AC-spenning, kan vi derfor integrere over en periode for å finne arealet under kurven, og deretter dele dette på perioden for å få gjennomsnittet~\cite{learningBook}. Matematisk utledet formel for DC-verdien av en AC-spenning $V(t)$ over en periode $T$ er som formel~\ref{eq:DCfromAC}.
+\begin{equation}\label{eq:DCfromAC}
+    V_{DC} = \frac{1}{T} \int_0^T V(t) \, dt
+\end{equation}
+
+\noindent
+
+
 \subsection{Glatting med kondensator~--~RC-ledd}
+Kondensatoren kan brukes i en likeretterkrets for å glatte ut utgangsspenningen og redusere rippel. Når en kondensator kobles i parallell med lasten i en likeretterkrets, vil den lade opp når utgangsspenningen stiger, og deretter avgi lagret energi når utgangsspenningen faller. Dette bidrar til å opprettholde en mer konstant spenning over lasten, og reduserer dermed rippel~\cite{wikipediaRectifiers}.
+\\[1em]
+Kretsen for en toveis likeretter med kondensator for glatting er vist i figur~\ref{fig:rectifier_with_capacitor}. I denne kretsen vil kondensatoren $C$ lade opp når utgangsspenningen stiger, og deretter avgi lagret energi når utgangsspenningen faller, noe som resulterer i en mer konstant spenning over lasten $R_L$.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+
+\draw(0,0) to[D] (2,2);
+\draw(0,4) to[D] (2,2);
+
+\draw(-2,2) to[D] (0,0);
+\draw(-2,2) to[D] (0,4);
+
+\draw(0,0) to[sV, l={$V_{in}(t)$}] (0,4);
+\draw(2,2) to[short] (6,2);
+\draw(3.5,2) to[R, l=$R_L$] (3.5,-2);
+\draw(3.5,-2) to[short] (-4,-2) to[short] (-4,2) to[short] (-2,2);
+\draw(6,2) to[C, l=$C$] (6,-2);
+
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (9,2) {};
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (9,-2) {};
+
+\draw (3.5,2) to[short] (Vtop) node[below] {$+$};
+\draw (3.5,-2) to[short] (Vbot) node[above] {$-$};
+
+\node at (9, 0) {$V_{out}(t)$};
+
+\end{circuitikz}
+\caption{Toveis likeretterkrets.}
+\label{fig:rectifier_with_capacitor}
+\end{figure}
+
 
 \subsection{AC- og DC-måling}
 \subsubsection{Oscilloskop}
