@@ -393,7 +393,7 @@ I figur~\ref{fig:ZenerDiode} vil zenordioden teoretisk lede strøm dersom $V_D >
 \noindent
 Zenordiodens karakteristiske kurve i figur~\ref{fig:zenerdiodeKurve} viser at den er lik en vanlig diodes karakteristiske kurve for $V_D > 0.7\text{V}$. For $V_D < 0\text{V}$ vil dioden etter gjennombruddsspenning (zenorspenning) øke ledet strøm kraftig i revers retning. Dioden lekker også noe strøm ved alle negative spenninger, men i teoretiske beregninger i denne rapporten vil dette ikke tas høyde for. I tillegg kan vi se at kurven blir nærmest vertikal ved $V_D = -V_Z$, noe som indikerer at dioden vil lede en stor strøm for små endringer i spenning rundt zenerspenningen, og at spenningen er nærmest konstant. Dette gjør zenerdioden spesielt nyttig for spenningsregulering, da den kan opprettholde en stabil spenning over seg selv til tross for variasjoner i strømmen som går gjennom den~\cite{wikipediaZenerDiodes}.
 
-\subsection{Klippekretser}
+\subsection{Klippekretser}\label{teo:klippekrets}
 Klippekretser er kretser som bruker dioder for å ``klippe'' eller begrense spenningen i en krets til et bestemt nivå. Dette kan være nyttig for å beskytte komponenter mot overspenning eller for å forme signaler. Klippekretser kan være enveis eller toveis, avhengig av om de begrenser spenningen i én retning eller begge retninger~\cite{wikipediaClippers}.
 \\[1em]
 Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og deretter koble denne kombinasjonen i parallell med lasten. Bruker vi en vanlig diode, vil klippekretser begrense spenningen i fremover retning på 0.7V. Bruker vi en zenerdiode, kan vi begrense spenningen i både fremover på 0.7V og revers retning på zenorspenningen~\cite{wikipediaClippers}.
@@ -467,7 +467,7 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
 \subsection{Likeretting}
 Likeretting er prosessen med å omdanne vekselspenning (AC) til likespenning (DC). Dioder brukes ofte i likeretterkretser for å oppnå dette. Det finnes flere typer likeretterkretser, inkludert enveis og toveis likeretting, som hver har sine egne karakteristikker og bruksområder~\cite{wikipediaRectifiers}.
 
-\subsubsection{Énveis likeretter}
+\subsubsection{Énveis likeretter}\label{teo:enveis_likeretter}
 I énveis likeretting vil enten den positive eller negative halvbølgen av AC-signalet bli tillatt å passere gjennom, mens den andre halvbølgen blokkeres. Dette er oppnådd ved å plassere en diode i serie med lasten. Når den positive halvbølgen av AC-signalet påføres, vil dioden lede og tillate strøm å passere gjennom lasten. Når den negative halvbølgen påføres, vil dioden blokkere strømmen, og ingen strøm vil passere gjennom lasten~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en énveis likeretter er vist i figur~\ref{fig:one_way_rectifier} og figur~\ref{fig:one_way_rectifier_in_out}.
 
 \begin{figure}[H]
@@ -536,7 +536,7 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
 \end{figure}
 
 
-\subsubsection{Toveis likeretter}
+\subsubsection{Toveis likeretter}\label{teo:toveis_likeretter}
 I toveis likeretting vil både den positive og negative halvbølgen av AC-signalet bli passere gjennom med samme fortegn. Dette oppnås ved å bruke en bro av fire dioder, kjent som en bro-likeretter. Broen sikrer at strøm gjennom lastmotstanden vil alltid være i samme retning, uavhengig av polariteten til inngangssignalet~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en toveis likeretter er vist i figur~\ref{fig:two_way_rectifier} og figur~\ref{fig:two_way_rectifier_in_out}.
 
 \begin{figure}[H]
@@ -612,7 +612,7 @@ I toveis likeretting vil både den positive og negative halvbølgen av AC-signal
 Kurven $V_{out}(t)$ har toppunkt ved $V_{out} = 5 - 1.4 = 3.6\text{V}$. Dette er fordi to dioder må skru på for at strømmen skal kunne passere gjennom lasten.
 
 
-\subsubsection{DC-verdi og rippel}
+\subsubsection{DC-verdi og rippel}\label{teo:dc_og_rippel}
 
 Likespenning (DC) er en spenning med konstant polaritet, i motsetning til vekselspenning (AC) som varierer periodisk med tiden. Dersom det er en AC-spenning med et periodisk signal, er DC-verdien av denne spenningen definert som den gjennomsnittlige verdien av spenningen over en periode. For å finne DC-verdien av en AC-spenning, kan vi derfor integrere over en periode for å finne arealet under kurven, og deretter dele dette på perioden for å få gjennomsnittet~\cite{learningBook}. Matematisk utledet formel for DC-verdien av en AC-spenning $V(t)$ over en periode $T$ er som formel~\ref{eq:DCfromAC}.
 \begin{equation}\label{eq:DCfromAC}
@@ -659,3 +659,322 @@ Kretsen for en toveis likeretter med kondensator for glatting er vist i figur~\r
 
 \subsection{AC- og DC-måling}
 \subsubsection{Oscilloskop}
+
+\subsection{Kretser}
+Vi vil nå se på seks forskjellige kretser som involverer dioder, og analysere deres oppførsel og utgangssignaler. Disse kretsene inkluderer både klippekretser og likeretterkretser, og vil gi oss innsikt i hvordan dioder kan brukes til å forme og kontrollere elektriske signaler. Vi vil senere sammenlikne de praktiske målingene med de teoretiske utregningene for hver krets, og diskutere eventuelle avvik og årsakene til disse. Signalgeneratoren bruker frekvensen 50 Hz dersom ikke annet er spesifisert.
+
+\subsubsection{Krets 1 -- enveis klippekrets}
+
+\begin{figure}[H]
+\centering
+
+\begin{circuitikz}
+    \draw
+    (0,0) to[sV, l={$V_{in}(t)$}, a=$20V_{pp}$] (0,3)
+          to[R, l=$R_1$, a=$180\Omega$] (5,3)
+          to[D, l=$D_3$, a=$\text{1N4148}$] (5,0)
+          to[short] (0,0);
+
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,3) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (7,0) {};
+
+    \draw (5,3) to[short] (Vtop) node[below] {$+$};
+    \draw (5,0) to[short] (Vbot) node[above] {$-$};
+
+    \node at (7, 1.5) {$V_{out}(t)$};
+
+    \node at (0, 0)[ground] {};
+\end{circuitikz}
+
+\caption{Enkel klippekrets}\label{fig:krets1}
+\end{figure}
+
+\noindent
+Kretsen i figur~\ref{fig:krets1} er en enkel klippekrets som bruker en enkelt diode (D3) for å begrense utgangsspenningen. Kretsen er kjent fra klippekretsteorien i seksjon~\ref{teo:klippekrets}. Siden kretsen ikke leder strøm før $D_3$ skrur på, vil utgangssignalet $V_{out}(t)$ være lik inngangssignalet $V_{in}(t)$ så lenge $V_{in}(t) < 0.7\text{V}$. Når $V_{in}(t)$ når 0.7 V, vil dioden begynne å lede, og utgangssignalet vil bli begrenset til 0.7V. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets1}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t\:[ms]$},
+    ylabel={$V\:[V]$},
+    xmin=0, xmax=6.28,
+    ymin=-12, ymax=12,
+    samples=200,
+    domain=0:6.28,
+    ytick={-10,-5,0.7,5,10},
+    yticklabels={$-10$, $-5$, $0.7$, $5$, $10$},
+    xtick={3.14,6.28},
+    xticklabels={$10$, $20$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {10 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick
+] {min(10 * sin(deg(x)), 0.7)};
+\addlegendentry{$V_{out}$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:krets1}.}
+\label{fig:krets1_in_out}
+\end{figure}
+
+\subsubsection{Krets 2 -- toveis klippekrets}
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+    \draw
+    (0,0) to[sV, l={$V_{in}(t)$}, a=$20V_{pp}$] (0,3)
+          to[R, l=$R_1$, a=$180\Omega$] (5,3)
+          to[D, l=$D_3$, a=$\text{1N4148}$] (5,0)
+          to[short] (0,0);
+
+    \draw
+    (5,0) to[short] (9,0)
+          to[D, a=$D_5$, l=$\text{1N4148}$] (9,3)
+          to[short] (5,3);
+
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (11,3) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (11,0) {};
+
+    \draw (9,3) to[short] (Vtop) node[below] {$+$};
+    \draw (9,0) to[short] (Vbot) node[above] {$-$};
+
+    \node at (11, 1.5) {$V_{out}(t)$};
+
+    \node at (0, 0)[ground] {};
+
+\end{circuitikz}
+\caption{Toveis klippekrets}\label{fig:krets2}
+\end{figure}
+
+\noindent
+I denne kretsen vil utledet teori for klippekrets i seksjon~\ref{teo:klippekrets} tilsi at utgangssignalet $V_{out}(t)$ vil være lik inngangssignalet $V_{in}(t)$ så lenge $-0.7\text{V} < V_{in}(t) < 0.7\text{V}$. Dette er fordi her klipper en diode i hver spenningsretning. Når én diode skrur på, vil den andre forbli åpen krets for å konservere spenningen over parallellkoblingen av diodene. Utgangssignalet vil derfor være begrenset til 0.7V i positiv retning og -0.7V i negativ retning. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets2}.
+
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t\:[ms]$},
+    ylabel={$V\:[V]$},
+    xmin=0, xmax=6.28,
+    ymin=-12, ymax=12,
+    samples=200,
+    domain=0:6.28,
+    ytick={-10,-5,-0.7, 0.7,5,10},
+    yticklabels={$-10$, $-5$, $-0.7$, $0.7$, $5$, $10$},
+    xtick={3.14,6.28},
+    xticklabels={$10$, $20$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {10 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick,
+    domain=0:3.14
+] {min(10 * sin(deg(x)), 0.7)};
+\addlegendentry{$V_{out}$}
+
+\addplot[
+    red,
+    thick,
+    domain=3.14:6.28
+] {max(10 * sin(deg(x)), -0.7)};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:krets2}.}
+\label{fig:krets2_in_out}
+\end{figure}
+
+\subsubsection{Krets 3 -- zenordioder i klippekrets}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+    \draw 
+    (0,0) to[sV, l={$V_{in}(t)$}, a=$20V_{pp}$] (0,6)
+        to[R, l=$R_1$, a=$180\Omega$] (8,6);
+    \draw (0, 0) to[short] (8,0);
+    \draw (8,3) to[zzD, a=$D_4$, l=$\text{BZX55/C4V7}$] (8,6);
+    \draw (8,3) to[zzD, l=$D_6$, a=$\text{BZX55/C6V8}$] (8,0);
+
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (11,6) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (11,0) {};
+
+    \draw (8,6) to[short] (Vtop) node[below] {$+$};
+    \draw (8,0) to[short] (Vbot) node[above] {$-$};
+
+    \node at (11, 3) {$V_{out}(t)$};
+
+    \node at (0, 0)[ground] {};
+
+
+\end{circuitikz}
+\caption{Klippekrets med zenerdioder}\label{fig:krets3}
+\end{figure}
+
+\noindent
+Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å begrense utgangsspenningen. Dersom vi først ser på den positive halvbølgen til inngangssignalet, vil $D_4$ først aktiveres når $V_{in}(t)$ blir 4.7V, og $D_6$ aktiveres når spenningspotensialet mellom zenordiodene er 0.7V høyere enn jording. Derfor må inngangsspenningen nå 5.4V før $D_6$ skrur på. Når $D_6$ skrur på, vil den ''klippe'' utgangssignalet til 5.4V. Når inngansspenningen er negativ vil akkurat samme logikk gjelde, men $D_6$ har zenorspenning på 6.8V, så inngangsspenningen må nå $-6.8V - 0.7V = -7.5V$ før $D_4$ skrur på og klipper utgangssignalet til -7.5V. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets3}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t\:[ms]$},
+    ylabel={$V\:[V]$},
+    xmin=0, xmax=6.28,
+    ymin=-12, ymax=12,
+    samples=200,
+    domain=0:6.28,
+    ytick={-10,-7.5, 0,5.4,10},
+    yticklabels={$-10$, $-7.5$, $0$, $5.4$, $10$},
+    xtick={3.14,6.28},
+    xticklabels={$10$, $20$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {10 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick,
+    domain=0:3.14
+] {min(10 * sin(deg(x)), 5.4)};
+\addlegendentry{$V_{out}$}
+
+\addplot[
+    red,
+    thick,
+    domain=3.14:6.28
+] {max(10 * sin(deg(x)), -7.5)};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:krets3}.}\label{fig:krets3_in_out}
+\end{figure}
+
+
+
+
+\subsubsection{Krets 4 -- enveis likeretter}
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+
+\draw
+(0,0) to[sV, l={$V_{in}(t)$}, a=$20V_{pp}$] (0,3)
+      to[D, l=$D_1$, a=$1\text{1N4148}$] (5,3)
+      to[R, l=$R_L$, a=$1\text{k}\Omega$] (5,0)
+      to[short] (0,0);
+
+
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,3) {};
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (7,0) {};
+
+\draw (5,3) to[short] (Vtop) node[below] {$+$};
+\draw (5,0) to[short] (Vbot) node[above] {$-$};
+
+\node at (7, 1.5) {$V_{out}(t)$};
+
+\node at (0, 0)[ground] {};
+
+\end{circuitikz}
+\caption{Enveis likeretterkrets}\label{fig:krets4}
+\end{figure}
+
+Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_likeretter}. Kretsen blokker strøm i negativ retning og tillater strøm i positiv retning. Utgangssignalet $V_{out}(t)$ vil derfor være 0V dersom inngangsignalet er negativt, og vil stige med inngangskurven dersom inngangssignalet er større enn 0.7V. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets4}. Denne er identisk til figur~\ref{fig:one_way_rectifier_in_out} i seksjon~\ref{teo:enveis_likeretter}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t\:[ms]$},
+    ylabel={$V\:[V]$},
+    xmin=0, xmax=6.28,
+    ymin=-12, ymax=12,
+    samples=200,
+    domain=0:6.28,
+    ytick={-10,-5,0,5,10},
+    yticklabels={$-10$, $-5$, $0$, $5$, $10$},
+    xtick={3.14,6.28},
+    xticklabels={$10$, $20$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {10 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick
+] {max(10 * sin(deg(x)) - 0.7, 0)};
+\addlegendentry{$V_{out}$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for énveis likeretterkretsen i figur~\ref{fig:krets4}.}\label{fig:krets4_in_out}
+\end{figure}
+
+\paragraph{DC-spenning over lastmotstanden. } Vi bruker formel~\ref{eq:DCfromAC} fra seksjon~\ref{teo:dc_og_rippel}.
+\[
+V_{DC} = \frac{1}{T} \int_0^T V_{out}(t) \, dt
+\]
+\noindent
+Vi integrerer over nullpunktene til funksjonen $10\cdot \sin (t) - 0.7$. Disse er $t = 0.07$ og $t = 3.07$. Perioden er som kjent $T = 0.02$s. Vi regner for DC-verdien.
+\[
+V_{DC} = \frac{1}{0.02}\int_{0.07}^{3.07} 10\sin (t) - 0.7 \, dt \rightarrow V_{DC} = 2.84\text{V}
+\]
+
+\subsubsection{Krets 5 -- toveis likeretter}
+
+
+
+
+\subsubsection{Krets 6 -- toveis likeretter med kondensator}
