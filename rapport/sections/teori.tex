@@ -431,7 +431,7 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
     axis lines=middle,
     xlabel={$t$},
     ylabel={$V$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-1.2, ymax=1.2,
     samples=200,
     domain=0:6.28,
@@ -502,7 +502,7 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
     axis lines=middle,
     xlabel={$t$},
     ylabel={$V$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-6, ymax=6,
     samples=200,
     domain=0:6.28,
@@ -537,35 +537,114 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
 
 
 \subsubsection{Toveis likeretter}\label{teo:toveis_likeretter}
-I toveis likeretting vil både den positive og negative halvbølgen av AC-signalet bli passere gjennom med samme fortegn. Dette oppnås ved å bruke en bro av fire dioder, kjent som en bro-likeretter. Broen sikrer at strøm gjennom lastmotstanden vil alltid være i samme retning, uavhengig av polariteten til inngangssignalet~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en toveis likeretter er vist i figur~\ref{fig:two_way_rectifier} og figur~\ref{fig:two_way_rectifier_in_out}.
+I toveis likeretting vil både den positive og negative halvbølgen av AC-signalet bli passere gjennom med samme fortegn. Dette oppnås ved å bruke en bro av fire dioder, kjent som en bro-likeretter. Broen sikrer at strøm gjennom lastmotstanden vil alltid være i samme retning, uavhengig av polariteten til inngangssignalet~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en toveis likeretter er vist i figur~\ref{fig:two_way_rectifier} og figur~\ref{fig:two_way_rectifier_in_out}. For at strøm skal ledes må to dioder skrus på, dette skjer da inngangsspenningen er større enn 1.4V. Det betyr at utgangssignalet vil være lik inngangssignalet minus 1.4V, altså $V_{out}(t) = V_{in}(t) - 1.4\text{V}$ for $V_{in}(t) > 1.4\text{V}$.
 
 \begin{figure}[H]
 \centering
 \begin{circuitikz}
 
-\draw(0,0) to[D] (2,2);
-\draw(0,4) to[D] (2,2);
+    \draw (0,0) to[D] (2,2);
+    \draw (0,0) to[D] (2,-2);
+    \draw (2,2) to[D] (4,0);
+    \draw (2,-2) to[D] (4,0);
 
-\draw(-2,2) to[D] (0,0);
-\draw(-2,2) to[D] (0,4);
+    \draw (4, 0) to[short] (5, 0) to[R, l=$R_L$] (5,-3) to[short] (0,-3) to[short] (0,0);
+    \draw (2,-2) to[sV, l={$V_{in}(t)$}] (2,2);.
 
-\draw(0,0) to[sV, l={$V_{in}(t)$}] (0,4);
-\draw(2,2) to[short] (6,2);
-\draw(6,2) to[R, l=$R_L$] (6,-2);
-\draw(6,-2) to[short] (-4,-2) to[short] (-4,2) to[short] (-2,2);
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,0) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (7,-3) {};
 
-\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (9,2) {};
-\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (9,-2) {};
+    \draw (5,0) to[short] (Vtop) node[below] {$+$};
+    \draw (5,-3) to[short] (Vbot) node[above] {$-$};
 
-\draw (6,2) to[short] (Vtop) node[below] {$+$};
-\draw (6,-2) to[short] (Vbot) node[above] {$-$};
-
-\node at (9, 0) {$V_{out}(t)$};
+    \node at (7, -1.5) {$V_{out}(t)$};
 
 \end{circuitikz}
 \caption{Toveis likeretterkrets.}
 \label{fig:two_way_rectifier}
 \end{figure}
+
+\noindent
+Under er en fremstilling av strømmens vei gjennom kretsen for både den positive og negative halvbølgen av inngangssignalet $V_{in}(t)$:
+
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\begin{circuitikz}[scale=0.9]
+
+    % Bridge
+    \draw (0,0) to[D] (2,2);
+    \draw (0,0) to[D] (2,-2);
+    \draw (2,2) to[D] (4,0);
+    \draw (2,-2) to[D] (4,0);
+
+    % Load + source
+    \draw (4,0) to[short] (5,0) to[R, l=$R_L$] (5,-3) to[short] (0,-3) to[short] (0,0);
+    \draw (2,-2) to[sV, l={$V_{in}(t)$}] (2,2);
+
+    % Voltage markers
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (6.3,0) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (6.3,-3) {};
+    \draw (5,0) to[short] (Vtop) node[below] {$+$};
+    \draw (5,-3) to[short] (Vbot) node[above] {$-$};
+    \node at (6.9,-1.5) {$V_{out}(t)$};
+
+    % Current direction arrows: positive half-wave
+    \draw[->, very thick, red] (2,1.2) -- (2,1.8);      % up through source
+    \draw[->, very thick, red] (2.35,1.65) -- (3.65,0.35); % through upper-right diode
+    \draw[->, very thick, red] (4.4,0) -- (4.9,0);      % to resistor
+    \draw[->, very thick, red] (5,-0.7) -- (5,-2.3);    % down through RL
+    \draw[->, very thick, red] (4.5,-3) -- (0.5,-3);    % return path bottom wire
+    \draw[->, very thick, red] (0.35,-0.35) -- (1.65,-1.65); % through lower-left diode
+
+\end{circuitikz}
+\caption{Positiv halvbølge.}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\begin{circuitikz}[scale=0.9]
+
+    % Bridge
+    \draw (0,0) to[D] (2,2);
+    \draw (0,0) to[D] (2,-2);
+    \draw (2,2) to[D] (4,0);
+    \draw (2,-2) to[D] (4,0);
+
+    % Load + source
+    \draw (4,0) to[short] (5,0) to[R, l=$R_L$] (5,-3) to[short] (0,-3) to[short] (0,0);
+    \draw (2,-2) to[sV, l={$V_{in}(t)$}] (2,2);
+
+    % Voltage markers
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (6.3,0) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (6.3,-3) {};
+    \draw (5,0) to[short] (Vtop) node[below] {$+$};
+    \draw (5,-3) to[short] (Vbot) node[above] {$-$};
+    \node at (6.9,-1.5) {$V_{out}(t)$};
+
+    % Current direction arrows: negative half-wave
+    \draw[->, very thick, red] (2,-1.2) -- (2,-1.8);        % down through source
+    \draw[->, very thick, red] (2.35,-1.65) -- (3.65,-0.35); % through lower-right diode
+    \draw[->, very thick, red] (4.4,0) -- (4.9,0);          % to resistor
+    \draw[->, very thick, red] (5,-0.7) -- (5,-2.3);        % down through RL
+    \draw[->, very thick, red] (4.5,-3) -- (0.5,-3);        % return path bottom wire
+    \draw[->, very thick, red] (0.35,0.35) -- (1.65,1.65);  % through upper-left diode
+
+\end{circuitikz}
+\caption{Negativ halvbølge.}
+\end{subfigure}
+
+\caption{Strømmens vei gjennom brokoblingen for de to halvperiodene av inngangssignalet.}
+\label{fig:bridge_current_paths}
+\end{figure}
+
+
+
+
+
 
 \begin{figure}[H]
 \centering
@@ -575,7 +654,7 @@ I toveis likeretting vil både den positive og negative halvbølgen av AC-signal
     axis lines=middle,
     xlabel={$t$},
     ylabel={$V$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-6, ymax=6,
     samples=200,
     domain=0:6.28,
@@ -608,9 +687,6 @@ I toveis likeretting vil både den positive og negative halvbølgen av AC-signal
 \label{fig:two_way_rectifier_in_out}
 \end{figure}
 
-\noindent
-Kurven $V_{out}(t)$ har toppunkt ved $V_{out} = 5 - 1.4 = 3.6\text{V}$. Dette er fordi to dioder må skru på for at strømmen skal kunne passere gjennom lasten.
-
 
 \subsubsection{DC-verdi og rippel}\label{teo:dc_og_rippel}
 
@@ -620,45 +696,143 @@ Likespenning (DC) er en spenning med konstant polaritet, i motsetning til veksel
 \end{equation}
 
 \noindent
+Rippel (rippelspenning) er den gjenværende periodiske variasjonen i en likespenning som er utledet fra en vekselspenningskilde. Denne variasjonen oppstår fordi den vekselspente komponenten ikke blir fullstendig fjernet etter likeretterprosessen. Rippelspenningen stammer dermed fra den pulserende utgangen fra likeretteren, og kan reduseres ved bruk av filtrering, for eksempel ved hjelp av en kondensator parallelt med lasten~\cite{wikipediaRipple}. Rippelspenningen er derfor et mål på forskjell i toppunkt og bunnpunkt i utgangsspenningen etter likeretterprosessen, og kan uttrykkes som formel~\ref{eq:ripple}.
+\begin{equation}\label{eq:ripple}
+    V_{ripple} = V_{peak} - V_{min}
+\end{equation}
 
 
 \subsection{Glatting med kondensator~--~RC-ledd}
 Kondensatoren kan brukes i en likeretterkrets for å glatte ut utgangsspenningen og redusere rippel. Når en kondensator kobles i parallell med lasten i en likeretterkrets, vil den lade opp når utgangsspenningen stiger, og deretter avgi lagret energi når utgangsspenningen faller. Dette bidrar til å opprettholde en mer konstant spenning over lasten, og reduserer dermed rippel~\cite{wikipediaRectifiers}.
-\\[1em]
-Kretsen for en toveis likeretter med kondensator for glatting er vist i figur~\ref{fig:rectifier_with_capacitor}. I denne kretsen vil kondensatoren $C$ lade opp når utgangsspenningen stiger, og deretter avgi lagret energi når utgangsspenningen faller, noe som resulterer i en mer konstant spenning over lasten $R_L$.
 
 \begin{figure}[H]
 \centering
 \begin{circuitikz}
 
-\draw(0,0) to[D] (2,2);
-\draw(0,4) to[D] (2,2);
+\draw (0,0) to[D] (2,2);
+\draw (0,0) to[D] (2,-2);
+\draw (2,2) to[D] (4,0);
+\draw (2,-2) to[D] (4,0);
 
-\draw(-2,2) to[D] (0,0);
-\draw(-2,2) to[D] (0,4);
+\draw (4, 0) to[short] (5, 0) to[R, l=$R_L$] (5,-3) to[short] (0,-3) to[short] (0,0);
+\draw (2,-2) to[sV, l={$V_{in}(t)$}] (2,2);.
 
-\draw(0,0) to[sV, l={$V_{in}(t)$}] (0,4);
-\draw(2,2) to[short] (6,2);
-\draw(3.5,2) to[R, l=$R_L$] (3.5,-2);
-\draw(3.5,-2) to[short] (-4,-2) to[short] (-4,2) to[short] (-2,2);
-\draw(6,2) to[C, l=$C$] (6,-2);
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (9,0) {};
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (9,-3) {};
 
-\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (9,2) {};
-\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (9,-2) {};
+\draw (5,0) to[short] (Vtop) node[below] {$+$};
+\draw (5,-3) to[short] (Vbot) node[above] {$-$};
 
-\draw (3.5,2) to[short] (Vtop) node[below] {$+$};
-\draw (3.5,-2) to[short] (Vbot) node[above] {$-$};
+\draw (7,0) to[C, l=$C$] (7,-3);
 
-\node at (9, 0) {$V_{out}(t)$};
+\node at (9, -1.5) {$V_{out}(t)$};
 
 \end{circuitikz}
 \caption{Toveis likeretterkrets.}
 \label{fig:rectifier_with_capacitor}
 \end{figure}
 
+\noindent
+Kretsen for en toveis likeretter med kondensator for glatting er vist i figur~\ref{fig:rectifier_with_capacitor}. I denne kretsen vil kondensatoren $C$ lade opp når utgangsspenningen stiger, og deretter avgi lagret energi når utgangsspenningen faller, noe som resulterer i en mer konstant spenning over lasten $R_L$. Utgangsspenningen uten kondensator vil være lik den teoretiske utgangspenningen for en toveis likeretter, som vist i figur~\ref{fig:two_way_rectifier_in_out}. Med kondensatoren vil utgangsspenningen være mer konstant og nærmere den maksimale verdien av inngangsspenningen. Dette resulterer i en høyere og mer stabil DC-verdi, samt en betydelig reduksjon i rippel. Inngangs- og utgangsspenningen for toveis likeretterkretsen med kondensator er vist i figur~\ref{fig:rectifier_with_capacitor_in_out}.
+
+
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=15cm,
+    height=9cm,
+    axis lines=middle,
+    xlabel={$t$},
+    ylabel={$V$},
+    xmin=0, xmax=16.5,
+    ymin=-1, ymax=7,
+    samples=500,
+    domain=0:15.7,
+    ytick={0,5},
+    yticklabels={$0$, $V_M$},
+    xtick={3.14,6.28, 9.42, 12.56, 15.7},
+    xticklabels={$T/2$, $T$, $3T/2$, $2T$, $5T/2$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {abs(5 * sin(deg(x)))};
+\addlegendentry{$V_{out} \: \text{(uten kondensator)}$}
+
+\addplot[
+    red,
+    thick,
+    domain=0:pi/2+0.1
+] {abs(5 * sin(deg(x)))};
+\addlegendentry{$V_{out} \: \text{(med kondensator)}$}
+
+\addplot[
+    red,
+    thick
+] coordinates {
+    (1.507, 5)
+    (4.312, 4.606)
+};
+
+\addplot[
+    red,
+    thick,
+    domain=3/2*pi-0.4:3/2*pi
+] {abs(5 * sin(deg(x)))};
+
+% Periode 2
+\addplot[red, thick] coordinates {
+    (4.649, 5)
+    (7.454, 4.606)
+};
+\addplot[red, thick, domain={5/2*pi-0.4}:{5/2*pi}] {abs(5*sin(deg(x)))};
+
+% Periode 3
+\addplot[red, thick] coordinates {
+    (7.791, 5)
+    (10.596, 4.606)
+};
+\addplot[red, thick, domain={7/2*pi-0.4}:{7/2*pi}] {abs(5*sin(deg(x)))};
+
+% Periode 4
+\addplot[red, thick] coordinates {
+    (10.933, 5)
+    (13.738, 4.606)
+};
+\addplot[red, thick, domain={9/2*pi-0.4}:{9/2*pi}] {abs(5*sin(deg(x)))};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for toveis likeretterkretsen i figur~\ref{fig:rectifier_with_capacitor}.}
+\label{fig:rectifier_with_capacitor_in_out}
+\end{figure}
+
+\noindent
+For en toveis likeretter med kondensator for glatting, vil peak-til-peak rippelspenningen kunne uttrykkes som:
+\begin{equation}\label{eq:capacitor_ripple}
+\Delta V_{ripple} = \frac{I_{L}}{f C} = \frac{V_{DC}}{R_L f C}
+\end{equation}
+
+\noindent
+Der $\Delta V_{ripple}$ er rippelspenningen, $I_L$ er strømmen gjennom lasten, $f$ er frekvensen av inngangssignalet, $C$ er kapasitansen til kondensatoren, og $V_{DC}$ er den gjennomsnittlige utgangsspenningen over lasten. Formelen viser at rippelspenningen kan reduseres ved å øke kapasitansen $C$, redusere belastningsstrømmen $I_L$, eller øke frekvensen $f$ av inngangssignalet~\cite{wikipediaRipple}.
+
+
+
 
 \subsection{AC- og DC-måling}
 \subsubsection{Oscilloskop}
+
+
+
+\clearpage
 
 \subsection{Kretser}
 Vi vil nå se på seks forskjellige kretser som involverer dioder, og analysere deres oppførsel og utgangssignaler. Disse kretsene inkluderer både klippekretser og likeretterkretser, og vil gi oss innsikt i hvordan dioder kan brukes til å forme og kontrollere elektriske signaler. Vi vil senere sammenlikne de praktiske målingene med de teoretiske utregningene for hver krets, og diskutere eventuelle avvik og årsakene til disse. Signalgeneratoren bruker frekvensen 50 Hz dersom ikke annet er spesifisert.
@@ -700,7 +874,7 @@ Kretsen i figur~\ref{fig:krets1} er en enkel klippekrets som bruker en enkelt di
     axis lines=middle,
     xlabel={$t\:[ms]$},
     ylabel={$V\:[V]$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-12, ymax=12,
     samples=200,
     domain=0:6.28,
@@ -774,7 +948,7 @@ I denne kretsen vil utledet teori for klippekrets i seksjon~\ref{teo:klippekrets
     axis lines=middle,
     xlabel={$t\:[ms]$},
     ylabel={$V\:[V]$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-12, ymax=12,
     samples=200,
     domain=0:6.28,
@@ -852,7 +1026,7 @@ Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å
     axis lines=middle,
     xlabel={$t\:[ms]$},
     ylabel={$V\:[V]$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-12, ymax=12,
     samples=200,
     domain=0:6.28,
@@ -930,7 +1104,7 @@ Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_liker
     axis lines=middle,
     xlabel={$t\:[ms]$},
     ylabel={$V\:[V]$},
-    xmin=0, xmax=6.28,
+    xmin=0, xmax=6.5,
     ymin=-12, ymax=12,
     samples=200,
     domain=0:6.28,
@@ -967,14 +1141,124 @@ Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_liker
 V_{DC} = \frac{1}{T} \int_0^T V_{out}(t) \, dt
 \]
 \noindent
-Vi integrerer over nullpunktene til funksjonen $10\cdot \sin (t) - 0.7$. Disse er $t = 0.07$ og $t = 3.07$. Perioden er som kjent $T = 0.02$s. Vi regner for DC-verdien.
+Vi integrerer over nullpunktene til funksjonen $10\cdot \sin (50\cdot 2 \cdot \pi \cdot t) - 0.7$. Disse er $t = 0.000223\text{s}$ og $t = 0.00978\text{s}$. Perioden er som kjent $T = 0.02$s. Vi regner for DC-verdien.
 \[
-V_{DC} = \frac{1}{0.02}\int_{0.07}^{3.07} 10\sin (t) - 0.7 \, dt \rightarrow V_{DC} = 2.84\text{V}
+V_{DC} = \frac{1}{0.02}\int_{0.000223}^{0.00978} 10\sin (100\pi t) - 0.7 \, dt \rightarrow V_{DC} = 2.84\text{V}
 \]
 
 \subsubsection{Krets 5 -- toveis likeretter}
 
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
 
+    \draw (0,0) to[D] (2,2);
+    \draw (0,0) to[D] (2,-2);
+    \draw (2,2) to[D] (4,0);
+    \draw (2,-2) to[D] (4,0);
+
+    \draw (4, 0) to[short] (5, 0) to[R, l=$R_L$, a=$1\text{k}\Omega$] (5,-3) to[short] (0,-3) to[short] (0,0);
+    \draw (2,-2) to[sV, l={$V_{in}(t)$}, a=$20V_{pp}$] (2,2);
+
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,0) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (7,-3) {};
+
+    \draw (5,0) to[short] (Vtop) node[below] {$+$};
+    \draw (5,-3) to[short] (Vbot) node[above] {$-$};
+
+    \node at (7, -1.5) {$V_{out}(t)$};
+
+
+\end{circuitikz}
+\caption{Toveis likeretterkrets}\label{fig:krets5}
+\end{figure}
+
+\noindent
+Kretsen er lik kretsen i seksjon~\ref{teo:toveis_likeretter}. Denne kretsen gjør at strøm alltid går samme vei gjennom motstanden, og vi vil dermed få en teoretisk kurve lik den i figur~\ref{fig:two_way_rectifier_in_out} i seksjon~\ref{teo:toveis_likeretter}. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets5}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=11cm,
+    axis lines=middle,
+    xlabel={$t\:[ms]$},
+    ylabel={$V\:[V]$},
+    xmin=0, xmax=6.5,
+    ymin=-12, ymax=12,
+    samples=200,
+    domain=0:6.28,
+    ytick={-10,-5,0,5,10},
+    yticklabels={$-10$, $-5$, $0$, $5$, $10$},
+    xtick={3.14,6.28},
+    xticklabels={$10$, $20$},
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=none
+    }
+]
+\addplot[
+    blue,
+    thick
+] {10 * sin(deg(x))};
+\addlegendentry{$V_{in}$}
+
+\addplot[
+    red,
+    thick
+] {max(abs(10*sin(deg(x))) - 1.4, 0)};
+\addlegendentry{$V_{out}$}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Inngangs- og utgangsspenning for toveis likeretterkretsen i figur~\ref{fig:krets5}.}
+\label{fig:krets5_in_out}
+\end{figure}
+
+
+\paragraph{DC-spenning over lastmotstanden. } Vi bruker formel~\ref{eq:DCfromAC} fra seksjon~\ref{teo:dc_og_rippel}. Siden utgangssignalet kan uttrykkes som et periodisk signal med halvparten av perioden til inngangssignalet, kan vi integrere i intervallet $0 < t < 10\text{ms}$ for å finne DC-verdien. Nullpunktene til funksjonen $10\cdot \sin (50\cdot 2 \cdot \pi \cdot t) - 1.4$ er $t = 0.000447\text{s}$ og $t = 0.00955\text{s}$. Vi regner for DC-verdien.
+\[
+V_{DC} = \frac{1}{0.01} \int_{0.000447}^{0.00955} (10\sin (100\pi t) - 1.4) \, dt \rightarrow V_{DC} = 5.04\text{V}
+\]
 
 
 \subsubsection{Krets 6 -- toveis likeretter med kondensator}
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+
+\draw (0,0) to[D] (2,2);
+\draw (0,0) to[D] (2,-2);
+\draw (2,2) to[D] (4,0);
+\draw (2,-2) to[D] (4,0);
+
+\draw (4, 0) to[short] (5, 0) to[R, l=$R_L$, a=$1\text{k}\Omega$] (5,-3) to[short] (0,-3) to[short] (0,0);
+\draw (2,-2) to[sV, l={$V_{in}(t)$}, a=$20V_{pp}$] (2,2);
+
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (9,0) {};
+\node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (9,-3) {};
+
+\draw (5,0) to[short] (Vtop) node[below] {$+$};
+\draw (5,-3) to[short] (Vbot) node[above] {$-$};
+
+\draw (7,0) to[C, l=$C_2$] (7,-3);
+
+\node at (9, -1.5) {$V_{out}(t)$};
+
+\end{circuitikz}
+\caption{Toveis likeretterkrets med kondensator for glatting.}
+\label{fig:krets6}
+\end{figure}
+
+
+\noindent
+Kretsen i figur~\ref{fig:krets6} er en toveis likeretterkrets som bruker en kondensator for å glatte ut utgangsspenningen og redusere rippel. Utgangssignalet vil være mer konstant og nærmere den maksimale verdien av inngangsspenningen, noe som resulterer i en høyere og mer stabil DC-verdi, samt en betydelig reduksjon i rippel.
+\\[1em]
+Ser vi på formel~\ref{eq:capacitor_ripple} fra seksjon~\ref{teo:dc_og_rippel}:
+\[
+\Delta V_{ripple} = \frac{I_L}{f C} = \frac{V_{DC}}{R_L f C}
+\]
+\noindent kan vi se at rippelspenningen $\Delta V_{ripple}$ vil reduseres ved å øke kapasitansen $C$ til kondensatoren. Dette skyldes at en større kapasitans vil kunne lagre mer energi og dermed bedre opprettholde en konstant spenning over lasten.
