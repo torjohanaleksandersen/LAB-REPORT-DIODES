@@ -1,6 +1,120 @@
 \section{Diskusjon}
+I denne seksjonen av rapporten vil vi diskutere resultatene av eksperimentet og analysere dem i forhold til teorien og hensikten med studien. Vi vil også identifisere potensielle feilkilder, mulige bruksområder for funnene, og foreslå forbedringer og videre arbeid.
 
 \subsection{Resultater knyttet til teori}
+\paragraph{Krets 1 og 2 -- klippekrets. } Teorien for disse kretsen bygger på en idealisert modell av dioden, der den karakteristiske kurven tilnærmes som en loddrett linje ved $V_D = 0.7\text{V}$ som vist under.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=6cm,
+    height=6cm,
+    axis lines=middle,
+    xlabel={$V_D[\text{V}]$},
+    ylabel={$I_D[\text{mA}]$},
+    xmin=0, xmax=1,
+    ymin=0, ymax=10,
+    xtick={0.7},
+    xticklabels={$0.7$},
+    ytick=\empty,
+    grid=both,
+    grid style={dashed, gray!30}
+]
+
+% Loddrett linje (ideal diode)
+\addplot[
+    red,
+    very thick
+] coordinates {
+    (0.7, 0)
+    (0.7, 10)
+};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Teoretiske karakteristiske kurven til en diode.}
+\end{figure}
+
+\noindent
+Denne modellen avviker fra hva den reelle karakteristiske kurven er. En teoretisk tilnærming av diodens reelle karakteristiske kurve er i figur~\ref{fig:silisiumsDiodeKurve}. Oscilloskopbilde vil derfor være annerledes fra det teoretiske og et slikt avvik i resultatet må forventes. Måleresultatene viser at signalet klippes ved  $800\text{mV}$ i begge kretser, altså høyere enn den teoretiske absoluttverdien på $0.7\text{V}$. Dette samsvarer med den faktiske karakteristiske kurven til dioden: når strømmen gjennom dioden øker, vil også spenningen over den øke. 
+\\[1em]
+Videre observeres det at utgangssignalet begynner å avvike fra inngangssignalet tidligere enn den idealiserte modellen tilsier. Dette skyldes at en praktisk diode begynner å lede gradvis før den når $0.7\text{V}$, i motsetning til den brå overgangen i den idealiserte modellen. Dette forklarer hvorfor den praktiske målingen begynner å avvike fra inngangssignalet ved en lavere spenning enn den teoretiske klippeverdien. For å videre understreke at klippeverdien er forventet høyere. Kan vi se på maksimalstrømmen gjennom kretsen. Vi benytter målte verdier fra oscilloskopet og Ohms lov for å beregne maksimalstrømmen gjennom dioden:
+\[
+\begin{aligned}
+    I_{\text{max}} &= \frac{V_{in} - V_D}{R} \\
+    I_{\text{max}} &= \frac{5\text{V} - 0.8\text{V}}{180 \Omega} \\ 
+    I_{\text{max}} &\approx 23.3\text{mA}
+\end{aligned}
+\]
+\noindent
+I figur~\ref{fig:silisiumsDiodeKurve} kan vi se at ved en strøm på $23.3\text{mA}$, vil spenningen over dioden være omtrent over teoretisk verdi på $0.7\text{V}$, noe som støtter observasjonen av at klippeverdien er høyere enn den idealiserte modellen. Avslutningsvis kan det nevnes at resultatkurvene oppfører seg forventet fra teorien, der $V_{ut}$ klippes på forventet områder. Samlet sett er resultatene fra klippekretsene i god overensstemmelse med forventningene, og de støtter en mer realistisk beskrivelse av diodens karakteristikk.
+
+\paragraph{Krets 3 -- zenordioder i klippekrets. } I likhet med resultat for krets 1 og 2, blir det en avrundet kurve i positiv halvbølge. Dette skyldes av at spenningen over dioden øker når strømmen gjennom den øker. Zenordiodens karakteristiske kurve i figur~\ref{fig:zenerdiodeKurve} viser at i revers retning, vil ikke spenningen øke noe særlig mer med strømmen, men i framoverretning vil den oppføre seg i likhet med en vanlig silisiumdiode. Dette forklarer hvorfor utgangssignalet blir litt avrundet, fordi den leder strøm tidligere enn ved $0.7\text{V}$ i framoverretning og $V_Z$ i reversretning.
+\\[1em]
+Videre kan vi diskutere avvik i toppunktet i utgangssignalet. I positiv halvbølge klippes det på $5.60\text{V}$ i steden for den teoretiske $5.40\text{V}$. I negativ halvbølge klippes det på $-7.60\text{V}$ i stedet for den teoretiske $-7.50\text{V}$. Dette tilsvarer et avvik på omtrent $3.7\%$ i positiv halvbølge og $1.3\%$ i negativ halvbølge, noe som viser at avviket er størst i positiv retning. Dette kan forklares i figuren under.
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{circuitikz}[american]
+
+    % Kilde og motstand
+    \draw
+    (0,3) node[left]{$10\,\text{V}$}
+    to[short, i>^=$I$] (1,3)
+    to[R, l=$R_1$, a=$180\,\Omega$] (3,3)
+    to[short] (3,2.2);
+
+    % Zenerdioder til jord
+    \draw
+    (3,2.2) to[zzD, *-, l_=$4.7\,\text{V}$] (3,1.1)
+            to[D, l_=$0.7\,\text{V}$] (3,0);
+
+    % Jord
+    \draw (3,0) node[ground]{};
+
+\end{circuitikz}
+\caption{Positiv halvbølge}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{circuitikz}[american]
+
+    % Kilde gjennom dioder og motstand til jord
+    \draw
+    (0,3) node[left]{$10\,\text{V}$}
+    to[short, i>^=$I$] (1,3)
+    to[D, l=$0.7\,\text{V}$] (2.2,3)
+    to[zzD, l=$6.8\,\text{V}$] (3.4,3)
+    to[R, l=$R_1$, a=$180\,\Omega$] (3.4,0);
+
+    % Jord
+    \draw (3.4,0) node[ground]{};
+
+\end{circuitikz}
+\caption{Negativ halvbølge}
+\end{subfigure}
+
+\caption{Illustrasjon av strømvei og spenningsfall i kretsen ved maksimal inngangsspenning.}
+\end{figure}
+
+\noindent
+Beregner vi strømmen ved maksimal inngangsspenning, får vi:
+\[
+\begin{aligned}
+    I\left(+\right) = \frac{10\text{V} - \left(4.7 + 0.7\right)\text{V}}{180 \Omega} &\approx 27.8\text{mA} \\
+    I\left(-\right) = \frac{10\text{V} - \left(6.8 + 0.7\right)\text{V}}{180 \Omega} &\approx 16.1\text{mA}
+\end{aligned}
+\]
+
+\noindent
+Dette forklarer en betydelig høyere strøm i positiv halvbølge, noe som vil føre til at spenningen over diodene øker mer i positiv halvbølge. Dette forklarer det høyere avviket i positiv halvbølge sammenlignet med negativ halvbølge. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både framover- og reversretning.
+
+\paragraph{Krets 4 -- enveis likeretter. }
 
 \paragraph{Hovedfunn opp mot hensikt}
 
