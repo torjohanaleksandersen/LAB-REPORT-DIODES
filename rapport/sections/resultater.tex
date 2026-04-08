@@ -734,8 +734,8 @@ Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgenera
     ymin=-3, ymax=28,
     samples=500,
     domain=0:15.7,
-    ytick={0,10,19.36,20.8},
-    yticklabels={$0$, $10$, $19.36$, $20.8$},
+    ytick={0,10,17.36,18.8,20.8},
+    yticklabels={$0$, $10$, $17.36$, $18.8$, $20.8$},
     xtick={3.14,6.28,9.42,12.56,15.7},
     xticklabels={$10$, $20$, $30$, $40$, $50$},
     legend style={
@@ -750,65 +750,70 @@ Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgenera
 \addplot[
     blue,
     thick
-] {abs(20.8 * sin(deg(x)))};
+] {max(0, abs(20.8 * sin(deg(x))) - 2)};
 \addlegendentry{$V_{out} \: \text{(uten kondensator)}$}
 
 % Utgang med kondensator: første opplading
 \addplot[
     red,
     thick,
-    domain=0:pi/2
-] {abs(20.8 * sin(deg(x)))};
+    domain=0.0963:pi/2
+] {abs(20.8 * sin(deg(x))) - 2};
 \addlegendentry{$V_{out} \: \text{(med kondensator)}$}
 
 % Periode 1: utlading + ny opplading
 \addplot[red, thick] coordinates {
-    (1.571, 20.8)
-    (4.338, 19.36)
+    (1.571, 18.8)
+    (4.338, 17.36)
 };
 \addplot[
     red,
     thick,
     domain=4.338:3*pi/2
-] {abs(20.8 * sin(deg(x)))};
+] {abs(20.8 * sin(deg(x))) - 2};
 
 % Periode 2
 \addplot[red, thick] coordinates {
-    (4.712, 20.8)
-    (7.480, 19.36)
+    (4.712, 18.8)
+    (7.480, 17.36)
 };
 \addplot[
     red,
     thick,
     domain=7.480:5*pi/2
-] {abs(20.8 * sin(deg(x)))};
+] {abs(20.8 * sin(deg(x))) - 2};
 
 % Periode 3
 \addplot[red, thick] coordinates {
-    (7.854, 20.8)
-    (10.622, 19.36)
+    (7.854, 18.8)
+    (10.622, 17.36)
 };
 \addplot[
     red,
     thick,
     domain=10.622:7*pi/2
-] {abs(20.8 * sin(deg(x)))};
+] {abs(20.8 * sin(deg(x))) - 2};
 
 % Periode 4
 \addplot[red, thick] coordinates {
-    (10.996, 20.8)
-    (13.763, 19.36)
+    (10.996, 18.8)
+    (13.763, 17.36)
 };
 \addplot[
     red,
     thick,
     domain=13.763:9*pi/2
-] {abs(20.8 * sin(deg(x)))};
+] {abs(20.8 * sin(deg(x))) - 2};
 
 \addplot[
     dashed,
     gray
-] coordinates {(0,19.36) (15.7,19.36)};
+] coordinates {(0,17.36) (15.7,17.36)};
+
+\addplot[
+    dashed,
+    gray
+] coordinates {(0,18.8) (15.7,18.8)};
 
 \end{axis}
 \end{tikzpicture}
@@ -830,8 +835,8 @@ Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgenera
     ymin=-3, ymax=28,
     samples=500,
     domain=0:15.7,
-    ytick={0,10,13.2,20.8},
-    yticklabels={$0$, $10$, $13.2$, $20.8$},
+    ytick={0,11.2,18.8,20.8},
+    yticklabels={$0$,$11.2$, $18.8$, $20.8$},
     xtick={3.14,6.28,9.42,12.56,15.7},
     xticklabels={$10$, $20$, $30$, $40$, $50$},
     legend style={
@@ -842,19 +847,19 @@ Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgenera
     }
 ]
 
-% Blå: uten kondensator
+% Definerer likerettet signal med 2 V diodetap
 \addplot[
     blue,
     thick
-] {abs(20.8*sin(deg(x)))};
+] {max(0, abs(20.8*sin(deg(x))) - 2)};
 \addlegendentry{$V_{out}\:\text{(uten kondensator)}$}
 
-% Rød: med kondensator, første sinusdel fram til tangentpunkt
+% Rød: med kondensator
 \addplot[
     red,
     thick,
-    domain=0:1.740
-] {20.8*sin(deg(x))};
+    domain=0.0963:1.740
+] {abs(20.8*sin(deg(x))) - 2};
 \addlegendentry{$V_{out}\:\text{(med kondensator)}$}
 
 % Første lineære utlading
@@ -862,8 +867,8 @@ Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgenera
     red,
     thick
 ] coordinates {
-    (1.740, 20.504)
-    (3.829, 13.2)
+    (1.740, 18.504)
+    (3.829, 11.2)
 };
 
 % Neste sinusoppgang
@@ -871,37 +876,42 @@ Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgenera
     red,
     thick,
     domain=3.829:3*pi/2
-] {abs(20.8*sin(deg(x)))};
+] {abs(20.8*sin(deg(x))) - 2};
 
 % Periode 2
-\addplot[red, thick, domain=3*pi/2:4.882] {abs(20.8*sin(deg(x)))};
+\addplot[red, thick, domain=3*pi/2:4.882] {abs(20.8*sin(deg(x))) - 2};
 \addplot[red, thick] coordinates {
-    (4.882, 20.504)
-    (6.971, 13.2)
+    (4.882, 18.504)
+    (6.971, 11.2)
 };
-\addplot[red, thick, domain=6.971:5*pi/2] {abs(20.8*sin(deg(x)))};
+\addplot[red, thick, domain=6.971:5*pi/2] {abs(20.8*sin(deg(x))) - 2};
 
 % Periode 3
-\addplot[red, thick, domain=5*pi/2:8.023] {abs(20.8*sin(deg(x)))};
+\addplot[red, thick, domain=5*pi/2:8.023] {abs(20.8*sin(deg(x))) - 2};
 \addplot[red, thick] coordinates {
-    (8.023, 20.504)
-    (10.112, 13.2)
+    (8.023, 18.504)
+    (10.112, 11.2)
 };
-\addplot[red, thick, domain=10.112:7*pi/2] {abs(20.8*sin(deg(x)))};
+\addplot[red, thick, domain=10.112:7*pi/2] {abs(20.8*sin(deg(x))) - 2};
 
 % Periode 4
-\addplot[red, thick, domain=7*pi/2:11.165] {abs(20.8*sin(deg(x)))};
+\addplot[red, thick, domain=7*pi/2:11.165] {abs(20.8*sin(deg(x))) - 2};
 \addplot[red, thick] coordinates {
-    (11.165, 20.504)
-    (13.254, 13.2)
+    (11.165, 18.504)
+    (13.254, 11.2)
 };
-\addplot[red, thick, domain=13.254:9*pi/2] {abs(20.8*sin(deg(x)))};
+\addplot[red, thick, domain=13.254:9*pi/2] {abs(20.8*sin(deg(x))) - 2};
 
 % Hjelpelinje
 \addplot[
     dashed,
     gray
-] coordinates {(0,13.2) (15.7,13.2)};
+] coordinates {(0,11.2) (15.7,11.2)};
+
+\addplot[
+    dashed,
+    gray
+] coordinates {(0,18.8) (15.7,18.8)};
 
 \end{axis}
 \end{tikzpicture}
@@ -932,5 +942,5 @@ $V_{DC} \: \left(10\mu\text{F}\right)$ & $14.57\text{V}$ \\
 
 \vspace{1em}
 
-\paragraph{Kommentar til resultater. } Resultatene er som forventet. Vi kan tydelig se at ved høyere kapasitans, så er ripplet mindre og DC-verdien høyere. Grafene og teoretiske verdier samsvarer med hverandre. Resultatene er uten store avvik og er som forventet.
+\paragraph{Kommentar til resultater. } Resultatene er som forventet. Vi kan tydelig se at ved høyere kapasitans, så er ripplet mindre og DC-verdien høyere. Ripple i hver graf er forskjellen mellom toppunkt og bunnpunkt for kondensatorkurven (mellom stiplet grå linjer). For $100\mu\text{F}$ er ripplet på $1.44\,\mathrm{V}$, og for $10\mu\text{F}$ er ripplet på $7.6\,\mathrm{V}$. Grafene og teoretiske verdier samsvarer med hverandre. Resultatene er uten store avvik og er som forventet.
 

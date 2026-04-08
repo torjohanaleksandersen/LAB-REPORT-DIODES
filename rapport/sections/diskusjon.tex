@@ -37,7 +37,7 @@ I denne seksjonen diskuterer vi resultatene for hver krets i forhold til teorien
 
 \end{axis}
 \end{tikzpicture}
-\caption{Teoretiske karakteristiske kurven til en diode.}
+\caption{Teoretiske karakteristiske kurven til en diode.}\label{fig:idealisertKurveSilisium}
 \end{figure}
 
 \noindent
@@ -185,11 +185,157 @@ V_{DC} \approx 11.9\text{V}
 \noindent
 Dette er den teoretiske DC-verdien basert på inngangssignalet målt på oscilloskopet. Det er et avvik på omtrent $6.2\%$ mellom målt DC-verdi og teoretisk DC-verdi, noe som kan forklares med at det praktiske utgangssignalet har ekstremalpunkter som er $0.6\text{V}$ lavere enn teoretisk. Dermed kan vi konkludere med at resultatene for kretsen med transformator er i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både framover- og reversretning.
 
-\paragraph{Krets 6 -- toveis likeretter med kondensator}
+\paragraph{Krets 6 -- toveis likeretter med kondensator. } I denne kretsen benyttet vi kondensatorer for å glatte ut utgangssignalet. Det vi forventer er at DC-verdien på signalet øker, jo mer vi glatter ut signalet. I teoriseksjon~\ref{teo:glatting_kondensator} presenterte vi formel~\ref{eq:capacitor_ripple}, som forteller at dersom kapasitansen øker vil ripplen minke. Dette støttes av resultatene, der vi ser at for $10\mu\text{F}$ er ripplet på $7.6\,\mathrm{V}$, og for $100\mu\text{F}$ er ripplet på $1.44\,\mathrm{V}$. Videre kan vi se på DC-verdiene, som er $11.2\text{V}$ for $10\mu\text{F}$ og $17.36\text{V}$ for $100\mu\text{F}$. Dette støtter teorien om at ved høyere kapasitans, så er DC-verdien høyere. Og det er akkurat dette som er hensikten med å bruke kondensator i en likeretterkrets, nemlig å øke DC-verdien og redusere rippel. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av hvordan kondensatorer påvirker utgangssignalet i en likeretterkrets.
 
-\paragraph{Hovedfunn opp mot hensikt}
+
+
+\subsubsection{Hovedfunn opp mot hensikt}
+Hensikten med forsøket er å oppnå forståelse for hvordan dioder kan brukes til å forme og omdanne signaler, herunder enveis og toveis likeretting, samt spenningsbegrensning ved hjelp av klippekretser. 
+\\[1em]
+Krets 1, 2 og 3 omhandler spenningsbegrensning i form av klippekretser. De praktiske måleresultatene har vært i god overensstemmelse med teorien, og vi ser at utgangssignalene i praksis blir klippet som forventet. Disse kretsene har dermed gitt en god forståelse for hvordan klippekretser fungerer i praksis og underbygger hensikten med forsøket.
+\\[1em]
+Krets 4 og 5 omhandler likeretting, der krets 4 er en enveis likeretter og krets 5 er en toveis likeretter. Resultatene for krets 4 har vært som forventet, og bekrefter hvordan en likeretter fungerer i praksis. For krets 5 ble resultatene derimot ikke som forventet grunnet jordingsfeil. Målingene støttet derfor i utgangspunktet ikke teorien, og hensikten med denne delen av forsøket ble ikke oppnådd. Ved å benytte en transformator og dermed oppnå galvanisk isolasjon, ble imidlertid resultatene i god overensstemmelse med teorien, og hensikten med forsøket kunne likevel oppfylles.
+\\[1em]
+Krets 6 omhandler glatting av utgangssignalet ved hjelp av kondensatorer. Resultatene viser tydelig at økt kapasitans gir redusert rippel og høyere DC-verdi, noe som er i samsvar med teorien. Dette demonstrerer hvordan kondensatorer effektivt kan brukes til å forbedre kvaliteten på et likerettet signal.
+\\[1em]
+Samlet sett har alle kretsene bidratt til å oppfylle den overordnede hensikten med forsøket. Resultatene bekrefter i stor grad teorien, samtidig som de gir økt forståelse for hvordan ikke-ideelle egenskaper og praktiske forhold påvirker oppførselen til dioder i elektriske kretser.
 
 \subsection{Feilkilder} %ikke for dypt i detaljer!
+I denne seksjonen av rapporten ønsker vi å identifisere og diskutere potensielle feilkilder som kan ha påvirket resultatene av eksperimentet. Forsøket har hatt flere resultat med betydelige avvik. For å forstå disse avvikene, er det viktig å analysere hvilke faktorer som kan ha bidratt til dem. 
+
+
+\paragraph{Idealiserte diodemodellen. } Alle teoretiske beregninger i denne rapporten har basert seg på en idealisert diode modell, der dioden er antatt å ha et konstant spenningsfall på $0.7\text{V}$ i framoverretning og ingen strøm i reversretning. I figurene under sammenlikner vi den idealiserte diodekarakteristikken med en mer realistisk karakteristikk for en silisiumdiode.
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=\textwidth,
+    height=6cm,
+    axis lines=middle,
+    xlabel={$V_D[\text{V}]$},
+    ylabel={$I_D[\text{mA}]$},
+    xmin=0, xmax=1,
+    ymin=0, ymax=10,
+    xtick={0.7},
+    xticklabels={$0.7$},
+    ytick=\empty,
+    grid=both,
+    grid style={dashed, gray!30}
+]
+
+\addplot[
+    red,
+    very thick
+] coordinates {
+    (0.7, 0)
+    (0.7, 10)
+};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Idealisert diodekarakteristikk}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.5\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=\textwidth,
+    height=6cm,
+    xmin=-9, xmax=15,
+    ymin=-5, ymax=16,
+    axis lines=middle,
+    axis line style={black, very thick},
+    xlabel={$V_D\;[\mathrm{V}]$},
+    ylabel={$I_D\;[\mathrm{mA}]$},
+    xlabel style={at={(current axis.right of origin)}, anchor=west},
+    ylabel style={at={(current axis.above origin)}, anchor=south},
+    xtick={-9,-8,...,15},
+    xticklabels={
+    {}, $-40$, {}, {}, {}, {}, {}, $-10$, {}, $0$,
+    {}, {}, {}, {}, {}, {}, $0.7$, {}, {}, $1.0$, {}, {}, {}, {}
+    },
+    ytick={-5,-4,...,16},
+    yticklabels={$-10\unit{pA}$, {}, {}, {}, {}, $0$, $1$, {}, {}, {}, $5$, {}, {}, {}, {}, $10$, {}, {}, {}, {}, $15$, {},},
+    yticklabel style={xshift=4pt, anchor=west},
+    grid=both,
+    major grid style={gray!50, line width=0.4pt},
+    minor grid style={gray!30, line width=0.2pt},
+    tick style={draw=none},
+    minor tick num=0,
+    enlargelimits=false,
+    clip=false
+]
+
+\addplot[
+    blue,
+    very thick,
+    smooth
+] coordinates {
+    (0,0)
+    (3,0.1)
+    (5,0.9)
+    (7,4)
+    (8,16)
+};
+
+\addplot[
+    blue,
+    very thick,
+    smooth
+] coordinates {
+    (-1,-5)
+    (-0.2, -4.8)
+    (0,-4)
+};
+
+\addplot[
+    blue,
+    very thick
+] coordinates {
+    (-9,-5)
+    (-1,-5)
+};
+
+\addplot[
+    blue,
+    very thick
+] coordinates {
+    (0,-4)
+    (0,0)
+};
+
+\draw[black!70, thick] (axis cs:7,-5) -- (axis cs:7,16);
+
+\end{axis}
+\end{tikzpicture}
+\caption{Reell diodekarakteristikk}
+\end{subfigure}
+
+\caption{Sammenligning mellom idealisert og reell diodekarakteristikk.}
+\label{fig:diode_karakteristikk_sammenligning}
+
+\end{figure}
+
+\noindent
+Vi kan tydelig se hvordan teoretiske beregninger ikke vil samsvare helt med praktiske målinger. Derfor er mange av avvikene i resultatene forventet. For eksempel, i klippekretsene, regner vi teoretisk at utgangssignalet skal klippes ved $0.7\text{V}$, men i praksis kan det være lavere eller høyere avhengig av strømmen gjennom dioden. Tar vi krets 1 og 2 som eksempel, så klippes utgangssignalet ved $800\text{mV}$, noe som må bety i praksis at det går høyere strøm gjennom dioden. I tillegg ser vi at den idealiserte kurven ikke tar hensyn til negativ påført spenning, men som vi ser i den reelle karakteristikken, vil det være en liten lekkasjestrøm i revers retning. I likeretterkretsene, gir resultatene en del avvik i ekstremalpunktene. Dette kan også forklares i den idealiserte modellen. Teoretisk forventer vi at det skal være et spenningsfall på $1.4\text{V}$ over to dioder, men i praksis har vi et spenningsfall på omtrent $2\text{V}$, noe som indikerer at det er høyere strøm gjennom diodene enn det den idealiserte modellen forutsetter. Samlet sett er det viktig å erkjenne at den idealiserte diodemodellen har begrensninger, og at avvik mellom teori og praksis i stor grad kan forklares ved å ta hensyn til de faktiske karakteristikkene til dioden.
+
+\paragraph{Toleranser i komponenter. }
+
+\paragraph{Jordingsfeil. }
+
+\paragraph{Måleusikkerhet i instrumenter. }
+
+\paragraph{Signalgenerator. }
+
+
+
+
+
 
 \subsection{Mulige bruksområder}
 
