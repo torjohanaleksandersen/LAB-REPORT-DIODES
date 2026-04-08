@@ -8,6 +8,29 @@ Videre er hensikten å oppnå forståelse for hvordan dioder kan brukes til å f
 \\[1em]
 Det legges også vekt på å sammenligne teoretiske beregninger med praktiske målinger ved bruk av oscilloskop og multimeter, og dermed vurdere avvik mellom ideelle modeller og virkelige komponenter.
 
+\subsection{Datablad}
+For å kunne bruke silisiumsdiode IN4148 og zenordioder fra serien BZX55 må vi kjenne til deres nøkkelparametere. Disse parameterne inkluderer blant annet maksimal effekt, zenerspenning, og maksimal fremspenning. Disse verdiene er essensielle for design og analyse av kretser som involverer dioder. Vi kan bla opp i deres respektive datablader for å finne disse verdiene.
+
+\begin{table}[H]
+\centering
+\caption{Nøkkelparametere for BZX55/C6V8.}
+\label{tab:diode_params}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parameter} & \textbf{Verdi} & \textbf{Betingelse} & \textbf{Enhet} \\
+\midrule
+
+Maks effekt $P_{max}$ & 500mW &  & W \\
+
+Zenerspenning $V_Z$ & 6.8V & $I_Z = 5\text{mA}$ & V \\
+
+Maks fremspenning $V_F$ & 1.0V & $I_F = 100\text{mA}$ & V \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 \subsection{Teoretisk grunnlag i grunnleggende kretsanalyse}
 Før vi kan analysere dioder og deres anvendelser, er det viktig å forstå grunnleggende prinsipper for kretsanalyse, inkludert Ohms lov og Kirchhoffs lover. Disse prinsippene danner grunnlaget for å kunne beregne strøm, spenning og effekt i elektriske kretser, og er essensielle for å kunne forstå hvordan dioder påvirker kretsens oppførsel.
 
