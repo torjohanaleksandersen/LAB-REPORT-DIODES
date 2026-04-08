@@ -2,6 +2,10 @@
 I denne seksjonen av rapporten vil vi diskutere resultatene av eksperimentet og analysere dem i forhold til teorien og hensikten med studien. Vi vil også identifisere potensielle feilkilder, mulige bruksområder for funnene, og foreslå forbedringer og videre arbeid.
 
 \subsection{Resultater knyttet til teori}
+I denne seksjonen diskuterer vi resultatene for hver krets i forhold til teorien og forventningene basert på den idealiserte modellen av dioden og de faktiske karakteristiske kurvene. Det vil gjøres utregninger og fremstillinger for å understreke avvik og støtte teorien.
+
+
+
 \paragraph{Krets 1 og 2 -- klippekrets. } Teorien for disse kretsen bygger på en idealisert modell av dioden, der den karakteristiske kurven tilnærmes som en loddrett linje ved $V_D = 0.7\text{V}$ som vist under.
 
 \begin{figure}[H]
@@ -103,7 +107,7 @@ Videre kan vi diskutere avvik i toppunktet i utgangssignalet. I positiv halvbøl
 \end{figure}
 
 \noindent
-Beregner vi strømmen ved maksimal inngangsspenning, får vi:
+Beregner vi strømmen ved ekstremalpunkt inngangsspenning, får vi:
 \[
 \begin{aligned}
     I\left(+\right) = \frac{10\text{V} - \left(4.7 + 0.7\right)\text{V}}{180 \Omega} &\approx 27.8\text{mA} \\
@@ -114,7 +118,74 @@ Beregner vi strømmen ved maksimal inngangsspenning, får vi:
 \noindent
 Dette forklarer en betydelig høyere strøm i positiv halvbølge, noe som vil føre til at spenningen over diodene øker mer i positiv halvbølge. Dette forklarer det høyere avviket i positiv halvbølge sammenlignet med negativ halvbølge. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både framover- og reversretning.
 
-\paragraph{Krets 4 -- enveis likeretter. }
+\paragraph{Krets 4 -- enveis likeretter. } I denne kretsen tester vi likeretteren for positiv og negativ halvbølge av inngangssignalet. Signalet oppfører seg som forventet på oscilloskopet, i den form av at den er flat når vi ønsker og gir halvbølge når vi ønsker. Uansett ser vi at ekstremalpunktene ikke er helt som forventet. Tidligere i diskusjonsseksjonen har vi diskutert hvordan spenningsfallet over diodene er større enn $0.7\text{V}$, på grunn av dens faktiske karakteristiske kurve. For positiv enveis likeretter, har vi et ekstremalpunkt som er $9.0\text{V}$, dette avviker $0.3\text{V}$ fra forventet verdi. For negativ enveis likeretter, har vi et ekstremalpunkt som er $-9.28\text{V}$, dette avviker $0.02\text{V}$ fra forventet verdi. Hvorfor avviket er annerledes i tilfellene har ikke et veldig klart svar, men det kan begrunnes delvis i mulige feilkilder.
+\\[1em]
+Videre kan vi se på DC-verdiene for utgangssignalene. Fra utgangssignalene forventer vi at negativ likeretter har en høyere absolutt DC-verdi enn positiv likeretter, dette fordi den negative halvbølgen har et ekstremalpunkt som er høyere i absoluttverdi enn det positive ekstremalpunktet. Dette støttes av målingene, der negativ likeretter har en DC-verdi på $-2.83\text{V}$ med $0.35\%$ avvik fra teorien, mens positiv likeretter har en DC-verdi på $4.2\text{V}$ med et avvik på $3.87\%$. Dette avviket støtter teorien om DC-verdi, der den mest nøyaktige likeretteren har nærmest forventet DC-verdi. Integralformelen fra teoriseksjonen kan derfor anses som absolutt pålitelig i beregninger for DC-verdi. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien.
+
+\paragraph{Krets 5 -- toveis likeretter. } I denne kretsen tester vi en likeretter for både positiv og negativ halvbølge av inngangssignalet. Resultatene på oscilloskopet er ikke forventet, da kretsen oppfører seg som en positiv enveis likeretter. I tillegg klippes negativ halvbølge ved $-600\text{mV}$, noe som indikerer at den måleinstrumentet måler negative spenninger. Videre kan det nevnes at DC-verdien er målt $2.54\text{V}$ med et avvik på hele $46.6\%$ fra teoriens forventning på $5.04\text{V}$. Disse resultatene er ikke tilfredsstillende, og er ikke til forventning. For å videre diskutere hvorfor dette skjer må vi se på måleinstrumentene. Det ble nevnt kort i kommentar til resultat seksjonen at dette skyldes jordingsfeil.
+\\[1em]
+Jordingsfeil i dette tilfeller kommer fra instrumentene vi bruker. Funksjonsgeneratoren og oscilloskopet er begge jordet til samme referansepunkt (ofte referert som ''earth''). Når vi kobler opp signalgeneratoren er denne jordet til et referansepunkt (earth), som også gir kretsen dette referansepunktet. Dette går bra, dersom vi ikke lager flere slike nodejordinger. Uansett, har oscilloskopet også samme jordingsreferanse (earth). Når vi måler over motstanden i kretsen har vi nå to jordingspunkter med akkurat samme spenningspotensial. Dette er illustret i figuren under.
+
+\begin{figure}[H]
+\centering
+\begin{circuitikz}
+
+    \draw (0,0) to[D] (2,2);
+    \draw (0,0) to[D] (2,-2);
+    \draw (2,2) to[D] (4,0);
+    \draw (2,-2) to[D] (4,0);
+
+    \draw (4, 0) to[short] (5, 0) to[R, l=$R_L$] (5,-3) to[short] (0,-3) to[short] (0,0);
+    \draw (2,-2) to[sV, l={$V_{in}(t)$}] (2,2);.
+
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,0) {};
+    \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vbot) at (7,-3) {};
+
+    \draw (5,0) to[short] (Vtop) node[below] {$+$};
+    \draw (5,-3) to[short] (Vbot) node[above] {$-$};
+
+    \node at (7, -1.5) {$V_{out}(t)$};
+
+    \node at (5, -3)[ground, red, thick] {};
+    \node at (2, -2)[ground, red, thick] {};
+
+\end{circuitikz}
+\caption{Toveis likeretterkrets med jordingsfeil.}
+\label{fig:two_way_rectifier_earthed}
+\end{figure}
+
+\noindent
+Den positive halvbølgen er forventet, på resultatet ser vi et toppunkt på $9.0\text{V}$, som indikerer at det bare har vært spenningsfall over én diode. Teorien tilsier at det skal være over to dioder med et teoretisk spenningsfall på $1.4\text{V}$, men med jordingsfeil måler vi etter én diode direkte til jording. Selv om den målte spenningen i negativ halvperiode kun er omtrent $-0.6\text{V}$, er dette ikke årsaken til at dioden leder, men en konsekvens av det. Når inngangsspenningen forsøker å bli mer negativ, vil dioden bli frempolarisert og begynne å lede strøm. Dette fører til at spenningen over utgangen klemmes til omtrent diodens fremspenningsfall. Samlet sett er resultatene her tilk forventing. At DC-verdi blir målt halvparten av det forventede, støtter teorien på grunn av at det er bare én effektiv halvperiode som bidrar til utgangssignalet, i motsetning til to.
+\\[1em]
+Jordingsfeilen løses ved å bruke en transformator som innganskilde fra veggen. Med dette oppnår vi galvanisk isolasjon mellom spenningskilden og likeretterkretsen. Uansett, kan vi ikke måle inngangssignalet og utgangssignalet sammen med hverandre. Dette er igjen fordi vi lager flere jordingspunkter (earth) i kretsen. Det betyr at det kan bli utfordrende å se inngangssignalet og utgangssignalet sammen.
+\\[1em]
+Resultatene for kretsen med transformator er som forventet. Det er et spenningsfall på $2\text{V}$ over to dioder i både positiv og negativ halvbølge. Dette er i likhet med enveis likeretter som også har et spenningsfall på $1\text{V}$ per diode. Videre kan vi se på DC-verdi målingen, som er $11.17\text{V}$. Her har vi ingen teoretisk forventning, uansett kan vi gjøre utregninger basert på oscilloskopbilde for å se hva den burde være teoretisk. Inngangssignalet kan uttrykkes som:
+\[
+V_{in}(t) = 20.8 \cdot \sin \left(2\pi \cdot 50 \cdot t\right)
+\]
+\noindent
+Utgangssignalet vil kun eksistere dersom to dioder åpner seg:
+\[
+V_{out}(t) = \max \left(0, 20.8 \cdot \sin \left(2\pi \cdot 50 \cdot t\right) - 1.4\right)
+\]
+\noindent
+Vi integrerer over $V_{out}(t)$ mellom nullpunktene $t \in \{0.000214, 0.00979\}$.
+\[
+V_{DC} = \frac{1}{0.5 \cdot T} \int_{t_1}^{t_2} V_{out}(t) dt
+\]
+\vspace{0.1cm}
+\[
+V_{DC} = \frac{1}{0.5 \cdot T} \int_{0.000214}^{0.00979} 20.8 \cdot \sin \left(2\pi \cdot 50 \cdot t\right) - 1.4 dt
+\]
+\vspace{0.1cm}
+\[
+V_{DC} \approx 11.9\text{V}
+\]
+
+\noindent
+Dette er den teoretiske DC-verdien basert på inngangssignalet målt på oscilloskopet. Det er et avvik på omtrent $6.2\%$ mellom målt DC-verdi og teoretisk DC-verdi, noe som kan forklares med at det praktiske utgangssignalet har ekstremalpunkter som er $0.6\text{V}$ lavere enn teoretisk. Dermed kan vi konkludere med at resultatene for kretsen med transformator er i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både framover- og reversretning.
+
+\paragraph{Krets 6 -- toveis likeretter med kondensator}
 
 \paragraph{Hovedfunn opp mot hensikt}
 
