@@ -1,15 +1,17 @@
 \section{Teori}
 
+I denne seksjonen presenteres det teoretiske grunnlaget for laboratorieøvelsen. Først gjennomgås sentrale prinsipper i grunnleggende kretsanalyse, samt virkemåten til vanlige dioder og zenerdioder. Deretter beskrives teori knyttet til klippekretser, enveis og toveis likeretting, DC-verdi og rippel, før de aktuelle kretsene som analyseres i rapporten presenteres.
+
 \subsection{Formål og bakgrunn}
 
 Formålet med denne laboratorieøvelsen er å undersøke hvordan dioder oppfører seg i ulike elektroniske kretser ved vekselspenning (AC). Dette inkluderer analyse av både vanlige dioder og zenerdioder, samt deres anvendelse i klippekretser og likeretterkretser.
 \\[1em]
-Videre er hensikten å oppnå forståelse for hvordan dioder kan brukes til å forme og omdanne signaler, herunder enveis og toveis likeretting, samt spenningsbegrensning ved hjelp av klippekretser.
+Et sentralt mål i øvelsen er å lese av nødvendige diodeparametere fra datablad, og bruke disse i analyse av kretsene. Videre er hensikten å oppnå forståelse for både kobling og virkemåte til klippekretser, enveis og toveis likeretterkretser, samt likeretterkretser med RC-ledd.
 \\[1em]
 Det legges også vekt på å sammenligne teoretiske beregninger med praktiske målinger ved bruk av oscilloskop og multimeter, og dermed vurdere avvik mellom ideelle modeller og virkelige komponenter.
 
 \subsection{Datablad}
-For å kunne bruke silisiumsdiode IN4148 og zenordioder fra serien BZX55 må vi kjenne til deres nøkkelparametere. Disse parameterne inkluderer blant annet maksimal effekt, zenerspenning, og maksimal fremspenning. Disse verdiene er essensielle for design og analyse av kretser som involverer dioder. Vi kan bla opp i deres respektive datablader for å finne disse verdiene.
+For å kunne bruke silisiumsdiode 1N4148 og zenordioder fra serien BZX55 må vi kjenne til deres nøkkelparametere. Disse parameterne inkluderer blant annet maksimal effekt, zenerspenning, og maksimal fremspenning. Disse verdiene er essensielle for design og analyse av kretser som involverer dioder. Vi kan bla opp i deres respektive datablader for å finne disse verdiene. Datablader i referanser~\cite{datasheetBZX55,datasheet1N4148}.
 
 \begin{table}[H]
 \centering
@@ -29,6 +31,27 @@ Maks fremspenning $V_F$ & 1.0V & $I_F = 100\text{mA}$ & V \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{table}[H]
+\centering
+\caption{Nøkkelparametere for 1N4148.}
+\label{tab:diode_params_1N4148}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parameter} & \textbf{Verdi} & \textbf{Betingelse} & \textbf{Enhet} \\
+\midrule
+
+Maks effekt $P_{max}$ & 500mW &  & W \\
+
+Maks fremspenning $V_F$ & 1.0V & $I_F = 100\text{mA}$ & V \\
+
+Reversstrøm $I_R$ & 25nA & $V_R = 20\text{V}$ & A \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 
 
 \subsection{Teoretisk grunnlag i grunnleggende kretsanalyse}
@@ -96,10 +119,7 @@ Kirchhoffs lover består av to grunnleggende prinsipper for elektriske kretser: 
 \]
 \\[1em]
 \noindent
-I figur~\ref{fig:KCL} vil KCL kunne uttrykkes som:
-\[
-i_2 + i_3 - i_1 - i_4 = 0
-\]
+I figur~\ref{fig:KCL} vil KCL kunne uttrykkes som $i_2 + i_3 - i_1 - i_4 = 0$.
 
 \paragraph{Kirchhoffs spenningslov (KVL). } Denne loven beskriver konservasjon av elektrisk energi. KVL sier at summen av alle elektriske potensialendringer (spenninger) rundt en lukket sløyfe i en elektrisk krets, er lik null. I en sløyfe med $N$ forgreninger med spenninger $V_n$, kan KVL uttrykkes som:
 
@@ -108,10 +128,7 @@ i_2 + i_3 - i_1 - i_4 = 0
 \]
 \\[1em]
 \noindent
-Kretsen i figur~\ref{fig:KVL} viser en sløyfe med fire elementer. Ved å følge retningen av den elektriske strømmen, kan KVL uttrykkes som:
-\[
--V_4 + V_1 + V_2 + V_3 = 0
-\]
+Kretsen i figur~\ref{fig:KVL} viser en sløyfe med fire elementer. Ved å følge retningen av den elektriske strømmen, kan KVL uttrykkes som $-V_4 + V_1 + V_2 + V_3 = 0$.
 
 \begin{figure}[H]
 \centering
@@ -138,7 +155,7 @@ Kretsen i figur~\ref{fig:KVL} viser en sløyfe med fire elementer. Ved å følge
 \end{figure}
 
 \subsection{Dioder}
-En diode er en to-terminal elektrisk komponent som leder elektrisk strøm primært i en retning. Dioden har lav motstand (ideellt null) i en retning og høy motstand (ideellt uendelig) i den motsatte retningen. Formålet med dioden i applikasjoner og kretser er å kontrollere retningen av elektrisk strøm~\cite{wikipediaDiodes}.
+En diode er en to-terminal elektrisk komponent som leder elektrisk strøm primært i en retning. Dioden har lav motstand (ideelt null) i en retning og høy motstand (ideelt uendelig) i den motsatte retningen. Formålet med dioden i applikasjoner og kretser er å kontrollere retningen av elektrisk strøm~\cite{wikipediaDiodes}.
 
 \begin{figure}[H]
 \centering
@@ -152,7 +169,7 @@ En diode er en to-terminal elektrisk komponent som leder elektrisk strøm primæ
 \caption{Symbolet for diode i kretser.}\label{fig:Diode}
 \end{figure}
 
-\paragraph{Diodens oppbygning. } For å oppnå formålet med en diode, er den konstruert med en p-n-overgang. Dette betyr at dioden består av to halvledere, en type \textbf{p (positiv)} og en type \textbf{n (negativ)}. Dette er oppnådd ved å \textbf{dope} et halvledermateriale. Doping er prosessen hvor meget rene halvledere tilsettes kontrollerte mengder av urenheter. Dette påvirker krystallstrukturen til stoffet. I en p-type halvleder er det et overskudd av hull (positive ladningsbærere), mens i en n-type halvleder er det et overskudd av elektroner (negative ladningsbærere)~\cite{wikipediaDoping}. Katoden er den negative terminalen i en diode, og anoden er den positive terminalen.
+\paragraph{Diodens oppbygning. } For å oppnå formålet med en diode, er den konstruert med en p-n-overgang. Dette betyr at dioden består av to halvledere, en type \textbf{p (positiv)} og en type \textbf{n (negativ)}. Dette er oppnådd ved å \textbf{dope} et halvledermateriale. Doping er prosessen hvor meget rene halvledere tilsettes kontrollerte mengder av urenheter. Dette påvirker krystallstrukturen til stoffet. I en p-type halvleder er det et overskudd av hull (positive ladningsbærere), mens i en n-type halvleder er det et overskudd av elektroner (negative ladningsbærere)~\cite{wikipediaDoping}. Katoden er den negative terminalen i en diode, og anoden er den positive terminalen. I praksis betyr dette at overskuddet av ladningsbærerne fra n-siden vil forflytte seg til ledige hull på p-siden, som gir opphav til elektroner i bevegelse i primært én retning.
 \\[1em]
 Ser vi på en silisiumsdiode med silisiumsstruktur, vil doping av silisium med fosfor (P) skape en n-type halvleder, hvor det er et overskudd av elektroner. Disse ekstra elektronene er frie til å bevege seg gjennom krystallstrukturen. Doper vi silisium med bor (B), vil det skape en p-type halvleder, hvor det er et overskudd av hull. Disse hullene fungerer som positive ladningsbærere~\cite{learningBook}.
 
@@ -170,6 +187,7 @@ Ser vi på en silisiumsdiode med silisiumsstruktur, vil doping av silisium med f
   \draw[gray] (0,0) -- (0,2) -- (0,4);
   \draw[gray] (2,0) -- (2,2) -- (2,4);
   \draw[gray] (4,0) -- (4,2) -- (4,4);
+  \draw[gray] (2,2) -- (2.7,2.9);
 
   % silicon lattice
   \foreach \x in {0,2,4} {
@@ -193,11 +211,12 @@ Ser vi på en silisiumsdiode med silisiumsstruktur, vil doping av silisium med f
 % --- P-TYPE ---
 % bonds
   \draw[gray] (0,0) -- (2,0) -- (4,0);
-  \draw[gray] (0,2) -- (2,2) -- (4,2);
+  \draw[gray] (0,2) -- (2,2);
   \draw[gray] (0,4) -- (2,4) -- (4,4);
   \draw[gray] (0,0) -- (0,2) -- (0,4);
   \draw[gray] (2,0) -- (2,2) -- (2,4);
   \draw[gray] (4,0) -- (4,2) -- (4,4);
+  \draw[gray] (4,2) -- (3, 2);
 
     % silicon lattice
 \foreach \x in {0,2,4} {
@@ -210,7 +229,7 @@ Ser vi på en silisiumsdiode med silisiumsstruktur, vil doping av silisium med f
   \node[draw, circle, fill=red!20, minimum size=8mm] at (2,2) {\small B};
 
   % hole
-  \node[draw, circle, dashed, inner sep=2pt, label=right:{\small hull}] at (2.7,2.9) {$h^+$};
+  \node[draw, circle, dashed, fill=white, inner sep=2pt, label=above:{\small hull}] at (2.80,2) {$h^+$};
 \end{tikzpicture}
 \caption{p-type doping}
 \end{subfigure}
@@ -219,9 +238,9 @@ Ser vi på en silisiumsdiode med silisiumsstruktur, vil doping av silisium med f
 \end{figure}
 
 \noindent
-Disse materialene er satt sammen i en p-n-overgang for å danne en diode. Elektronene og hullene vil diffundere over grenseflaten mellom de to materialene. Dette skaper et område kalt \textbf{deplasjonsregionen}, hvor det er en elektrisk felt som hindrer videre diffusjon av ladningsbærere. Når en spenning påføres i fremoverretning (positiv spenning på anoden), vil dette elektriske feltet reduseres, og dioden vil etter nok spenningsforskjell over dioden, begynne å lede strøm. Når en spenning påføres i revers retning (positiv spenning på katoden), vil det elektriske feltet øke, og dioden vil ikke lede strøm, bortsett fra en liten lekkasjestrøm. Denne lekkasjestrømmen er vanligvis ubetydelig og blir ikke tatt høyde for i teoretiske beregninger~\cite{learningBook}.
+Disse materialene er satt sammen i en p-n-overgang for å danne en diode. Elektronene og hullene vil diffundere over grenseflaten mellom de to materialene. Dette skaper et område kalt \textbf{deplasjonsregionen}, hvor det er et elektrisk felt som hindrer videre diffusjon av ladningsbærere. Når en spenning påføres i fremoverretning (positiv spenning på anoden), vil dette elektriske feltet reduseres, og dioden vil etter nok spenningsforskjell over dioden, begynne å lede strøm. Når en spenning påføres i revers retning (positiv spenning på katoden), vil det elektriske feltet øke, og dioden vil ikke lede strøm, bortsett fra en liten lekkasjestrøm. Denne lekkasjestrømmen er vanligvis ubetydelig og blir ikke tatt høyde for i teoretiske beregninger~\cite{learningBook}.
 
-\paragraph{Diodens karakteristiske kurve. } Diodens karakteristiske kurve viser forholdet mellom strømmen gjennom dioden og spenningen over den. I fremoverretning vil strømmen øke eksponentielt etter at en terskelspenning (for silisiumdiode, ca. 0.7 V) er nådd. I revers retning vil strømmen være svært liten (lekkasjestrøm) inntil en viss spenning, kalt brytespenningen, hvor dioden begynner å lede i revers retning~\cite{wikipediaDiodes}.
+\paragraph{Diodens karakteristiske kurve. } Diodens karakteristiske kurve viser forholdet mellom strømmen gjennom dioden og spenningen over den. I fremoverretning vil strømmen øke eksponentielt etter at en terskelspenning (for silisiumdiode, ca. 0.7 V) er nådd. I revers retning vil strømmen være svært liten, og vi får i praksis en lekkasjestrøm~\cite{wikipediaDiodes}.
 
 \begin{figure}[H]
 \centering
@@ -234,17 +253,15 @@ Disse materialene er satt sammen i en p-n-overgang for å danne en diode. Elektr
     ymin=-5, ymax=16,
     axis lines=middle,
     axis line style={black, very thick},
-    xlabel={$V_D\;(\mathrm{V})$},
-    ylabel={$I_D\;(\mathrm{mA})$},
-    xlabel style={at={(current axis.right of origin)}, anchor=west},
-    ylabel style={at={(current axis.above origin)}, anchor=south},
+    xlabel={$V_D\;[\mathrm{V}]$},
+    ylabel={$I_D\;[\mathrm{mA}]$},
     xtick={-9,-8,...,15},
     xticklabels={
     {}, $-40$, {}, $-30$, {}, $-20$, {}, $-10$, {}, $0$,
     {}, {}, $0.3$, {}, $0.5$, {}, $0.7$, {}, {}, $1.0$, {}, {}, {}, {}
     },
     ytick={-5,-4,...,16},
-    yticklabels={$-10\unit{pA}$, $-8\unit{pA}$, $-6\unit{pA}$, $-4\unit{pA}$, $-2\unit{pA}$, $0$, $1$, $2$, $3$, {}, $5$, {}, {}, {}, {}, $10$, {}, {}, {}, {}, $15$, {},},
+    yticklabels={$-10\unit{pA}$, $-8\unit{pA}$, $-6\unit{pA}$, $-4\unit{pA}$, $-2\unit{pA}$, $0$, $1$, $2$, $3$, {}, $5$, {}, {}, {}, {}, $10$, {}, {}, {}, {}, {}, {},},
     yticklabel style={xshift=4pt, anchor=west},
     grid=both,
     major grid style={gray!50, line width=0.4pt},
@@ -302,11 +319,53 @@ Disse materialene er satt sammen i en p-n-overgang for å danne en diode. Elektr
 \end{figure}
 
 \noindent
-Diodens karakteristiske kurve viser sammenhengen mellom spenninngen over dioden ($V_D$) og strømmen gjennom dioden ($I_D$). Kurven gir oss dermed en rekke arbeidspunkter for dioden. Om en gitt spenning er påført dioden, kan vi finne den tilsvarende strømmen ved å se på kurven. Kurven for silisiumsdioder i figur~\ref{fig:silisiumsDiodeKurve} viser at i fremoverretning, etter at terskelspenningen på ca. 0.7 V er nådd, øker strømmen kraftig. I revers retning er strømmen svært liten (lekkasjestrøm). For teoretiske beregninger i denne rapporten vil 0.7 V brukes som terskelspenning for silisiumsdioder.
+Diodens karakteristiske kurve viser sammenhengen mellom spenninngen over dioden ($V_D$) og strømmen gjennom dioden ($I_D$). Kurven gir oss dermed en rekke \textbf{arbeidspunkter} langs kurven for dioden. Om en gitt spenning er påført dioden, kan vi finne den tilsvarende strømmen ved å se på kurven. Kurven for silisiumsdioder i figur~\ref{fig:silisiumsDiodeKurve} viser at i fremoverretning, etter at terskelspenningen på ca. 0.7 V er nådd, øker strømmen kraftig. I revers retning er strømmen svært liten (lekkasjestrøm). For teoretiske beregninger i denne rapporten vil 0.7 V brukes som terskelspenning for silisiumsdioder.
+
+\paragraph{Polarisering. } I dioder har vi tre forskjellige tilstander: fremoverpolarisering (forward-bias), reverspolarisering (reverse-bias) og upolarisering (no-bias). I den karakteristiske kurven for dioden vil fremoverpolarisering være for $V_D > 0\text{V}$, reverspolarisering for $V_D < 0\text{V}$ og upolarisering for $V_D = 0\text{V}$. I kretsanalyse vil tilfellene være som i figurene under.
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}{0.29\textwidth}
+\centering
+\begin{circuitikz}[american voltages]
+    \node[circle, fill=black, inner sep=1.5pt, label=above:{$5\mathrm{V}$}] (A) at (-2,0) {};
+    \node[circle, fill=black, inner sep=1.5pt, label=above:{$0\mathrm{V}$}] (B) at (2,0) {};
+
+    \draw (A) to[D, i>^=$I_D$, v_=$V_D$] (B);
+\end{circuitikz}
+\caption{Fremoverpolarisering.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.29\textwidth}
+\centering
+\begin{circuitikz}[american voltages]
+    \node[circle, fill=black, inner sep=1.5pt, label=above:{$0\mathrm{V}$}] (A) at (-2,0) {};
+    \node[circle, fill=black, inner sep=1.5pt, label=above:{$5\mathrm{V}$}] (B) at (2,0) {};
+
+    \draw (A) to[D, v_=$V_D$] (B);
+\end{circuitikz}
+\caption{Reverspolarisering.}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.29\textwidth}
+\centering
+\begin{circuitikz}[american voltages]
+    \node[circle, fill=black, inner sep=1.5pt, label=above:{$0\mathrm{V}$}] (A) at (-2,0) {};
+    \node[circle, fill=black, inner sep=1.5pt, label=above:{$0\mathrm{V}$}] (B) at (2,0) {};
+
+    \draw (A) to[D, v_=$V_D$] (B);
+\end{circuitikz}
+\caption{Upolarisert tilstand.}
+\end{subfigure}
+
+\caption{Diode ved ulike nodepotensialer.}
+\label{fig:diode_bias_nodes}
+\end{figure}
 
 \subsubsection{Zenerdioder}
 
-En zenordiode er en spesiell type diode som er designet for å lede strøm i revers retning når en bestemt spenning, kalt zenerspenningen, er nådd. Siden zenerdioder er konstruert for å operere i revers brudd, har de en karakteristisk kurve som viser at når zenerspenningen er nådd, vil strømmen øke kraftig i revers retning. Zenerdioder brukes ofte i spenningsregulatorer og beskyttelseskretser for å sikre at spenningen ikke overstiger et bestemt nivå~\cite{wikipediaZenerDiodes}.
+En zenordiode er en spesiell type diode som er designet for å lede strøm i revers retning når en bestemt spenning, kalt zenerspenningen, er nådd. Siden zenerdioder er konstruert for å operere i reverspolarisering, har de en karakteristisk kurve som viser at når zenerspenningen er nådd, vil strømmen øke kraftig i revers retning. Zenerdioder brukes ofte i spenningsregulatorer og beskyttelseskretser for å sikre at spenningen ikke overstiger et bestemt nivå~\cite{wikipediaZenerDiodes}.
 
 \begin{figure}[H]
 \centering
@@ -322,7 +381,7 @@ En zenordiode er en spesiell type diode som er designet for å lede strøm i rev
 
 \noindent
 I figur~\ref{fig:ZenerDiode} vil zenordioden teoretisk lede strøm dersom $V_D > 0.7\text{V}$. Zenordioden vil også lede strøm i revers retning dersom $V_D < -V_Z$, hvor $V_Z$ er zenerspenningen.
-\paragraph{Zenordiodens karakteristiske kurve. } Denne er lik den for en vanlig diode for $V_D > 0.7\text{V}$. For $V_D < 0\text{V}$ vil dioden etter gjennombruddsspenning (zenorspenning) øke ledet strøm kraftig.
+\paragraph{Zenordiodens karakteristiske kurve. } Denne er lik silisiumsdioden i fremoverpolarisering, men i reverspolariseringsområdet vil den kunne operere når zenorspenningen er nådd.
 
 \begin{figure}[H]
 \centering
@@ -330,21 +389,22 @@ I figur~\ref{fig:ZenerDiode} vil zenordioden teoretisk lede strøm dersom $V_D >
 \begin{tikzpicture}
 \begin{axis}[
     width=15cm,
-    height=12cm,
+    height=10cm,
     xmin=-11, xmax=11,
     ymin=-8, ymax=8,
     axis lines=middle,
     axis line style={black, very thick},
-    xlabel={$V_D\;(\mathrm{V})$},
-    ylabel={$I_D\;(\mathrm{mA})$},
-    xlabel style={at={(current axis.right of origin)}, anchor=west},
-    ylabel style={at={(current axis.above origin)}, anchor=south},
+    xlabel={$V_D\;[\mathrm{V}]$},
+    ylabel={$I_D\;[\mathrm{mA}]$},
     xtick={-11,-10,...,11},
     xticklabels={
     {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, $0$,
     {}, {}, $0.3$, {}, $0.5$, {}, $0.7$, {}, {}, $1.0$, {}, {}, {}, {}
     },
     ytick={-8,-7,...,8},
+    yticklabels={
+        {},{},{},$-5$,{},{},$-2$,$-1$,$0$,$1$,$2$,{},{},$5$,{},{},{}
+    },
     yticklabel style={xshift=4pt, anchor=west},
     grid=both,
     major grid style={gray!50, line width=0.4pt},
@@ -414,13 +474,12 @@ I figur~\ref{fig:ZenerDiode} vil zenordioden teoretisk lede strøm dersom $V_D >
 \end{figure}
 
 \noindent
-Zenordiodens karakteristiske kurve i figur~\ref{fig:zenerdiodeKurve} viser at den er lik en vanlig diodes karakteristiske kurve for $V_D > 0.7\text{V}$. For $V_D < 0\text{V}$ vil dioden etter gjennombruddsspenning (zenorspenning) øke ledet strøm kraftig i revers retning. Dioden lekker også noe strøm ved alle negative spenninger, men i teoretiske beregninger i denne rapporten vil dette ikke tas høyde for. I tillegg kan vi se at kurven blir nærmest vertikal ved $V_D = -V_Z$, noe som indikerer at dioden vil lede en stor strøm for små endringer i spenning rundt zenerspenningen, og at spenningen er nærmest konstant. Dette gjør zenerdioden spesielt nyttig for spenningsregulering, da den kan opprettholde en stabil spenning over seg selv til tross for variasjoner i strømmen som går gjennom den~\cite{wikipediaZenerDiodes}.
+Dioden lekker noe strøm ved alle negative spenninger, men i teoretiske beregninger i denne rapporten vil dette ikke tas høyde for. I tillegg kan vi se at kurven blir nærmest vertikal ved $V_D = -V_Z$, noe som indikerer at dioden vil lede en stor strøm for små endringer i spenning rundt zenerspenningen, og at spenningen er nærmest konstant. Dette gjør zenerdioden spesielt nyttig for spenningsregulering, da den kan opprettholde en stabil spenning over seg selv til tross for variasjoner i strømmen som går gjennom den~\cite{wikipediaZenerDiodes}.
 
 \subsection{Klippekretser}\label{teo:klippekrets}
-Klippekretser er kretser som bruker dioder for å ``klippe'' eller begrense spenningen i en krets til et bestemt nivå. Dette kan være nyttig for å beskytte komponenter mot overspenning eller for å forme signaler. Klippekretser kan være enveis eller toveis, avhengig av om de begrenser spenningen i én retning eller begge retninger~\cite{wikipediaClippers}.
+Klippekretser er kretser som bruker dioder for å ``klippe'' eller begrense spenningen i en krets til et bestemt nivå. Dette kan være nyttig for å beskytte komponenter mot overspenning eller for å forme signaler. Klippekretser kan være enveis eller toveis, avhengig av om de begrenser spenningen i én halvbølge eller begge halvbølgene til AC-signalet~\cite{wikipediaClippers}.
 \\[1em]
 Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og deretter koble denne kombinasjonen i parallell med lasten. Bruker vi en vanlig diode, vil klippekretser begrense spenningen i fremover retning på 0.7V. Bruker vi en zenerdiode, kan vi begrense spenningen i både fremover på 0.7V og revers retning på zenorspenningen~\cite{wikipediaClippers}.
-\\[1em]
 
 \begin{figure}[H]
 \centering
@@ -428,7 +487,7 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
 \draw
 (0,0) to[sV, l={$V_{in}(t)$}] (0,3)
       to[R, l=$R$] (5,3)
-      to[D] (5,0)
+      to[D, a=$D$] (5,0)
       to[short] (0,0);
 
 \node[circle, draw=black, fill=none, thick, inner sep=2pt] (Vtop) at (7,3) {};
@@ -442,7 +501,7 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
 
 \node at (0, 0)[ground] {};
 \end{circuitikz}
-\caption{Klippekrets bestående av motstand og diode som begrenser utgangsspenningen.}
+\caption{Enveis klippekrets.}
 \label{fig:clipper_circuit}
 \end{figure}
 
@@ -483,7 +542,7 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
 
 \end{axis}
 \end{tikzpicture}
-\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:clipper_circuit}. Inngangssignalet $V_{in}$ er sinusformet, mens utgangssignalet $V_{out}$ begrenses til omtrent $0.7\,\mathrm{V}$ når dioden leder.}
+\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:clipper_circuit}. Inngangssignalet $V_{in}$ er sinusformet, mens utgangssignalet $V_{out}$ begrenses til $0.7\mathrm{V}$ når dioden leder.}
 \label{fig:clipper_in_out}
 \end{figure}
 
@@ -492,6 +551,8 @@ Likeretting er prosessen med å omdanne vekselspenning (AC) til likespenning (DC
 
 \subsubsection{Énveis likeretter}\label{teo:enveis_likeretter}
 I énveis likeretting vil enten den positive eller negative halvbølgen av AC-signalet bli tillatt å passere gjennom, mens den andre halvbølgen blokkeres. Dette er oppnådd ved å plassere en diode i serie med lasten. Når den positive halvbølgen av AC-signalet påføres, vil dioden lede og tillate strøm å passere gjennom lasten. Når den negative halvbølgen påføres, vil dioden blokkere strømmen, og ingen strøm vil passere gjennom lasten~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en énveis likeretter er vist i figur~\ref{fig:one_way_rectifier} og figur~\ref{fig:one_way_rectifier_in_out}.
+
+\vspace{1em}
 
 \begin{figure}[H]
 \centering
@@ -517,6 +578,8 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
 \label{fig:one_way_rectifier}
 \end{figure}
 
+\vspace{1em}
+
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
@@ -529,8 +592,8 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
     ymin=-6, ymax=6,
     samples=200,
     domain=0:6.28,
-    ytick={-5,-2.5,0,2.5,5},
-    yticklabels={$-5$, $-2.5$, $0$, $2.5$, $5$},
+    ytick={-5,-2.5,0,2.5,4.3,5},
+    yticklabels={$-5$, $-2.5$, $0$, $2.5$, $4.3$, $5$},
     xtick={3.14,6.28},
     xticklabels={$T/2$, $T$},
     legend style={
@@ -552,6 +615,8 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
 ] {max(5 * sin(deg(x)) - 0.7, 0)};
 \addlegendentry{$V_{out}$}
 
+\addplot[dashed, gray] coordinates {(0,4.3) (1.57,4.3)};
+
 \end{axis}
 \end{tikzpicture}
 \caption{Inngangs- og utgangsspenning for énveis likeretterkretsen i figur~\ref{fig:one_way_rectifier}.}
@@ -560,7 +625,10 @@ I énveis likeretting vil enten den positive eller negative halvbølgen av AC-si
 
 
 \subsubsection{Toveis likeretter}\label{teo:toveis_likeretter}
-I toveis likeretting vil både den positive og negative halvbølgen av AC-signalet bli passere gjennom med samme fortegn. Dette oppnås ved å bruke en bro av fire dioder, kjent som en bro-likeretter. Broen sikrer at strøm gjennom lastmotstanden vil alltid være i samme retning, uavhengig av polariteten til inngangssignalet~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en toveis likeretter er vist i figur~\ref{fig:two_way_rectifier} og figur~\ref{fig:two_way_rectifier_in_out}. For at strøm skal ledes må to dioder skrus på, dette skjer da inngangsspenningen er større enn 1.4V. Det betyr at utgangssignalet vil være lik inngangssignalet minus 1.4V, altså $V_{out}(t) = V_{in}(t) - 1.4\text{V}$ for $V_{in}(t) > 1.4\text{V}$.
+I toveis likeretting vil både den positive og negative halvbølgen av AC-signalet passere gjennom med samme fortegn. Dette oppnås ved å bruke en bro av fire dioder, kjent som en bro-likeretter. Broen sikrer at strøm gjennom lastmotstanden vil alltid være i samme retning, uavhengig av polariteten til inngangssignalet~\cite{wikipediaRectifiers}. Kretsen og utgangssignalet for en toveis likeretter er vist i figur~\ref{fig:two_way_rectifier} og figur~\ref{fig:two_way_rectifier_in_out}. For at strøm skal ledes må to dioder skrus på, dette skjer da inngangsspenningen er større enn 1.4V. Det betyr at utgangssignalet vil være. 
+\[
+V_{out}(t) = \max \left(0, \, V_{in}(t) - 1.4\text{V}\right)
+\]
 
 \begin{figure}[H]
 \centering
@@ -590,6 +658,7 @@ I toveis likeretting vil både den positive og negative halvbølgen av AC-signal
 \noindent
 Under er en fremstilling av strømmens vei gjennom kretsen for både den positive og negative halvbølgen av inngangssignalet $V_{in}(t)$:
 
+\vspace{3em}
 
 \begin{figure}[H]
 \centering
@@ -681,8 +750,8 @@ Under er en fremstilling av strømmens vei gjennom kretsen for både den positiv
     ymin=-6, ymax=6,
     samples=200,
     domain=0:6.28,
-    ytick={-5,-2.5,0,2.5,5},
-    yticklabels={$-5$, $-2.5$, $0$, $2.5$, $5$},
+    ytick={-5,-2.5,0,2.5,3.6,5},
+    yticklabels={$-5$, $-2.5$, $0$, $2.5$, $3.6$, $5$},
     xtick={3.14,6.28},
     xticklabels={$T/2$, $T$},
     legend style={
@@ -704,6 +773,8 @@ Under er en fremstilling av strømmens vei gjennom kretsen for både den positiv
 ] {max(abs(5*sin(deg(x))) - 1.4, 0)};
 \addlegendentry{$V_{out}$}
 
+\addplot[dashed, gray] coordinates {(0,3.6) (4.71,3.6)};
+
 \end{axis}
 \end{tikzpicture}
 \caption{Inngangs- og utgangsspenning for toveis likeretterkretsen i figur~\ref{fig:two_way_rectifier}.}
@@ -715,7 +786,7 @@ Under er en fremstilling av strømmens vei gjennom kretsen for både den positiv
 
 Likespenning (DC) er en spenning med konstant polaritet, i motsetning til vekselspenning (AC) som varierer periodisk med tiden. Dersom det er en AC-spenning med et periodisk signal, er DC-verdien av denne spenningen definert som den gjennomsnittlige verdien av spenningen over en periode. For å finne DC-verdien av en AC-spenning, kan vi derfor integrere over en periode for å finne arealet under kurven, og deretter dele dette på perioden for å få gjennomsnittet~\cite{learningBook}. Matematisk utledet formel for DC-verdien av en AC-spenning $V(t)$ over en periode $T$ er som formel~\ref{eq:DCfromAC}.
 \begin{equation}\label{eq:DCfromAC}
-    V_{DC} = \frac{1}{T} \int_0^T V(t) \, dt
+    V_{DC} = \frac{1}{T} \int_0^T V(t)  dt
 \end{equation}
 
 \noindent
@@ -751,7 +822,7 @@ Kondensatoren kan brukes i en likeretterkrets for å glatte ut utgangsspenningen
 \node at (9, -1.5) {$V_{out}(t)$};
 
 \end{circuitikz}
-\caption{Toveis likeretterkrets.}
+\caption{Toveis likeretterkrets med bruk av kondensator for å redusere rippel.}
 \label{fig:rectifier_with_capacitor}
 \end{figure}
 
@@ -852,12 +923,8 @@ For en toveis likeretter med kondensator for glatting, vil peak-til-peak rippels
 Der $\Delta V_{ripple}$ er rippelspenningen, $I_L$ er strømmen gjennom lasten, $f$ er frekvensen av inngangssignalet, $C$ er kapasitansen til kondensatoren, og $V_{DC}$ er den gjennomsnittlige utgangsspenningen over lasten. Formelen viser at rippelspenningen kan reduseres ved å øke kapasitansen $C$, redusere belastningsstrømmen $I_L$, eller øke frekvensen $f$ av inngangssignalet~\cite{wikipediaRipple}.
 
 
-
-
-\clearpage
-
 \subsection{Kretser}
-Vi vil nå se på seks forskjellige kretser som involverer dioder, og analysere deres oppførsel og utgangssignaler. Disse kretsene inkluderer både klippekretser og likeretterkretser, og vil gi oss innsikt i hvordan dioder kan brukes til å forme og kontrollere elektriske signaler. Vi vil senere sammenlikne de praktiske målingene med de teoretiske utregningene for hver krets, og diskutere eventuelle avvik og årsakene til disse. Signalgeneratoren bruker frekvensen 50 Hz dersom ikke annet er spesifisert.
+Vi vil nå se på seks forskjellige kretser som involverer dioder, og analysere deres oppførsel og utgangssignaler. Disse kretsene inkluderer både klippekretser og likeretterkretser, og vil gi oss innsikt i hvordan dioder kan brukes til å forme og kontrollere elektriske signaler. Vi vil senere sammenlikne de praktiske målingene med de teoretiske utregningene for hver krets, og diskutere eventuelle avvik og årsakene til disse. Signalgeneratoren bruker frekvensen 50Hz, og teoretiske grafer og beregninger vil bruke dette.
 
 \subsubsection{Krets 1 -- enveis klippekrets}
 
@@ -885,8 +952,12 @@ Vi vil nå se på seks forskjellige kretser som involverer dioder, og analysere 
 \caption{Enkel klippekrets}\label{fig:krets1}
 \end{figure}
 
+\vspace{1em}
+
 \noindent
-Kretsen i figur~\ref{fig:krets1} er en enkel klippekrets som bruker en enkelt diode (D3) for å begrense utgangsspenningen. Kretsen er kjent fra klippekretsteorien i seksjon~\ref{teo:klippekrets}. Siden kretsen ikke leder strøm før $D_3$ skrur på, vil utgangssignalet $V_{out}(t)$ være lik inngangssignalet $V_{in}(t)$ så lenge $V_{in}(t) < 0.7\text{V}$. Når $V_{in}(t)$ når 0.7 V, vil dioden begynne å lede, og utgangssignalet vil bli begrenset til 0.7V. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets1}.
+Kretsen i figur~\ref{fig:krets1} er en enkel klippekrets som bruker en enkelt diode (D3) for å begrense utgangsspenningen. Kretsen er kjent fra klippekretsteorien i seksjon~\ref{teo:klippekrets}. Siden kretsen ikke leder strøm før $D_3$ skrur på, vil utgangssignalet $V_{out}(t)$ være lik inngangssignalet $V_{in}(t)$ så lenge $V_{in}(t) < 0.7\text{V}$. Når $V_{in}(t)$ når 0.7 V, vil dioden begynne å lede, og utgangssignalet vil bli begrenset til 0.7V.
+
+\vspace{2em}
 
 \begin{figure}[H]
 \centering
@@ -958,9 +1029,12 @@ Kretsen i figur~\ref{fig:krets1} er en enkel klippekrets som bruker en enkelt di
 \caption{Toveis klippekrets}\label{fig:krets2}
 \end{figure}
 
-\noindent
-I denne kretsen vil utledet teori for klippekrets i seksjon~\ref{teo:klippekrets} tilsi at utgangssignalet $V_{out}(t)$ vil være lik inngangssignalet $V_{in}(t)$ så lenge $-0.7\text{V} < V_{in}(t) < 0.7\text{V}$. Dette er fordi her klipper en diode i hver spenningsretning. Når én diode skrur på, vil den andre forbli åpen krets for å konservere spenningen over parallellkoblingen av diodene. Utgangssignalet vil derfor være begrenset til 0.7V i positiv retning og -0.7V i negativ retning. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets2}.
+\vspace{1em}
 
+\noindent
+I denne kretsen vil utledet teori for klippekrets i seksjon~\ref{teo:klippekrets} tilsi at utgangssignalet $V_{out}(t)$ vil være lik inngangssignalet $V_{in}(t)$ så lenge $-0.7\text{V} < V_{in}(t) < 0.7\text{V}$. Dette er fordi her klipper en diode i hver spenningsretning. Når én diode skrur på, vil den andre forbli åpen krets for å konservere spenningen over parallellkoblingen av diodene. Utgangssignalet vil derfor være begrenset til 0.7V i positiv retning og -0.7V i negativ retning.
+
+\vspace{3em}
 
 \begin{figure}[H]
 \centering
@@ -1038,7 +1112,9 @@ I denne kretsen vil utledet teori for klippekrets i seksjon~\ref{teo:klippekrets
 \end{figure}
 
 \noindent
-Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å begrense utgangsspenningen. Dersom vi først ser på den positive halvbølgen til inngangssignalet, vil $D_4$ først aktiveres når $V_{in}(t)$ blir 4.7V, og $D_6$ aktiveres når spenningspotensialet mellom zenordiodene er 0.7V høyere enn jording. Derfor må inngangsspenningen nå 5.4V før $D_6$ skrur på. Når $D_6$ skrur på, vil den ''klippe'' utgangssignalet til 5.4V. Når inngansspenningen er negativ vil akkurat samme logikk gjelde, men $D_6$ har zenorspenning på 6.8V, så inngangsspenningen må nå $-6.8V - 0.7V = -7.5V$ før $D_4$ skrur på og klipper utgangssignalet til -7.5V. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets3}.
+Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å begrense utgangsspenningen. Dersom vi først ser på den positive halvbølgen til inngangssignalet, vil $D_4$ først aktiveres når $V_{in}(t)$ blir 4.7V, og $D_6$ aktiveres når spenningspotensialet mellom zenordiodene er 0.7V høyere enn jording. Derfor må inngangsspenningen nå 5.4V før $D_6$ skrur på. Når $D_6$ skrur på, vil den ''klippe'' utgangssignalet til 5.4V. Når inngansspenningen er negativ vil akkurat samme logikk gjelde, men $D_6$ har zenorspenning på 6.8V, så inngangsspenningen må nå $-6.8V - 0.7V = -7.5V$ før $D_4$ skrur på og klipper utgangssignalet til -7.5V.
+
+\vspace{2em}
 
 \begin{figure}[H]
 \centering
@@ -1082,12 +1158,16 @@ Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å
     domain=3.14:6.28
 ] {max(10 * sin(deg(x)), -7.5)};
 
+\addplot[dashed, gray] coordinates {(0,5.4) (0.6,5.4)};
+
+\addplot[dashed, gray] coordinates {(0,-7.5) (4,-7.5)};
+
+
+
 \end{axis}
 \end{tikzpicture}
 \caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:krets3}.}\label{fig:krets3_in_out}
 \end{figure}
-
-
 
 
 \subsubsection{Krets 4 -- enveis likeretter}
@@ -1116,7 +1196,7 @@ Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å
 \caption{Enveis likeretterkrets}\label{fig:krets4}
 \end{figure}
 
-Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_likeretter}. Kretsen blokker strøm i negativ retning og tillater strøm i positiv retning. Utgangssignalet $V_{out}(t)$ vil derfor være 0V dersom inngangsignalet er negativt, og vil stige med inngangskurven dersom inngangssignalet er større enn 0.7V. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets4}. Denne er identisk til figur~\ref{fig:one_way_rectifier_in_out} i seksjon~\ref{teo:enveis_likeretter}.
+Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_likeretter}. Kretsen blokker strøm i negativ retning og tillater strøm i positiv retning. Utgangssignalet $V_{out}(t)$ vil derfor være 0V dersom inngangsignalet er negativt, og vil stige med inngangskurven dersom inngangssignalet er større enn 0.7V. Teoretiske utgangssignalet er identisk til figur~\ref{fig:one_way_rectifier_in_out} i seksjon~\ref{teo:enveis_likeretter}.
 
 \begin{figure}[H]
 \centering
@@ -1124,14 +1204,14 @@ Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_liker
 \begin{axis}[
     width=11cm,
     axis lines=middle,
-    xlabel={$t\:[ms]$},
-    ylabel={$V\:[V]$},
+    xlabel={$t$},
+    ylabel={$V$},
     xmin=0, xmax=6.5,
     ymin=-12, ymax=12,
     samples=200,
     domain=0:6.28,
-    ytick={-10,-5,0,5,10},
-    yticklabels={$-10$, $-5$, $0$, $5$, $10$},
+    ytick={-10,-5,0,5,9.3},
+    yticklabels={$-10$, $-5$, $0$, $5$, $9.3$},
     xtick={3.14,6.28},
     xticklabels={$10$, $20$},
     legend style={
@@ -1153,20 +1233,24 @@ Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_liker
 ] {max(10 * sin(deg(x)) - 0.7, 0)};
 \addlegendentry{$V_{out}$}
 
+\addplot[dashed, gray] coordinates {(0,9.3) (1.57,9.3)};
+
 \end{axis}
 \end{tikzpicture}
 \caption{Inngangs- og utgangsspenning for énveis likeretterkretsen i figur~\ref{fig:krets4}.}\label{fig:krets4_in_out}
 \end{figure}
 
-\paragraph{DC-spenning over lastmotstanden. } Vi bruker formel~\ref{eq:DCfromAC} fra seksjon~\ref{teo:dc_og_rippel}.
+\paragraph{DC-spenning over lastmotstanden. } Vi bruker formel~\ref{eq:DCfromAC} fra seksjon~\ref{teo:dc_og_rippel}. Vi integrerer over nullpunktene til funksjonen $10\cdot \sin (50\cdot 2 \cdot \pi \cdot t) - 0.7$. Disse er $t = 0.000223\text{s}$ og $t = 0.00978\text{s}$. Perioden er som kjent $T = 0.02$s. Vi regner for DC-verdien.
 \[
-V_{DC} = \frac{1}{T} \int_0^T V_{out}(t) \, dt
+V_{DC} = \frac{1}{0.02}\int_{0.000223}^{0.00978} 10\sin (100\pi t) - 0.7  dt \rightarrow V_{DC} = 2.84\text{V}
 \]
+
 \noindent
-Vi integrerer over nullpunktene til funksjonen $10\cdot \sin (50\cdot 2 \cdot \pi \cdot t) - 0.7$. Disse er $t = 0.000223\text{s}$ og $t = 0.00978\text{s}$. Perioden er som kjent $T = 0.02$s. Vi regner for DC-verdien.
-\[
-V_{DC} = \frac{1}{0.02}\int_{0.000223}^{0.00978} 10\sin (100\pi t) - 0.7 \, dt \rightarrow V_{DC} = 2.84\text{V}
-\]
+Dersom vi flipper dioden for å oppnå en negativ énveis likeretterkrets, vil DC spenningen skifte fortegn. Dette er fordi grafen er da speilet om x-aksen.
+
+
+
+
 
 \subsubsection{Krets 5 -- toveis likeretter}
 
@@ -1196,7 +1280,7 @@ V_{DC} = \frac{1}{0.02}\int_{0.000223}^{0.00978} 10\sin (100\pi t) - 0.7 \, dt \
 \end{figure}
 
 \noindent
-Kretsen er lik kretsen i seksjon~\ref{teo:toveis_likeretter}. Denne kretsen gjør at strøm alltid går samme vei gjennom motstanden, og vi vil dermed få en teoretisk kurve lik den i figur~\ref{fig:two_way_rectifier_in_out} i seksjon~\ref{teo:toveis_likeretter}. Under er en teoretisk utregning av utgangssignalet for kretsen i figur~\ref{fig:krets5}.
+Kretsen er lik kretsen i seksjon~\ref{teo:toveis_likeretter}. Denne kretsen gjør at strøm alltid går samme vei gjennom motstanden, og vi vil dermed få en teoretisk kurve lik den i figur~\ref{fig:two_way_rectifier_in_out} i seksjon~\ref{teo:toveis_likeretter}.
 
 \begin{figure}[H]
 \centering
@@ -1210,8 +1294,8 @@ Kretsen er lik kretsen i seksjon~\ref{teo:toveis_likeretter}. Denne kretsen gjø
     ymin=-12, ymax=12,
     samples=200,
     domain=0:6.28,
-    ytick={-10,-5,0,5,10},
-    yticklabels={$-10$, $-5$, $0$, $5$, $10$},
+    ytick={-10,-5,0,5,8.6, 10},
+    yticklabels={$-10$, $-5$, $0$, $5$, $8.6$, $10$},
     xtick={3.14,6.28},
     xticklabels={$10$, $20$},
     legend style={
@@ -1233,6 +1317,8 @@ Kretsen er lik kretsen i seksjon~\ref{teo:toveis_likeretter}. Denne kretsen gjø
 ] {max(abs(10*sin(deg(x))) - 1.4, 0)};
 \addlegendentry{$V_{out}$}
 
+\addplot[dashed, gray] coordinates {(0,8.6) (4.71,8.6)};
+
 \end{axis}
 \end{tikzpicture}
 \caption{Inngangs- og utgangsspenning for toveis likeretterkretsen i figur~\ref{fig:krets5}.}
@@ -1242,7 +1328,7 @@ Kretsen er lik kretsen i seksjon~\ref{teo:toveis_likeretter}. Denne kretsen gjø
 
 \paragraph{DC-spenning over lastmotstanden. } Vi bruker formel~\ref{eq:DCfromAC} fra seksjon~\ref{teo:dc_og_rippel}. Siden utgangssignalet kan uttrykkes som et periodisk signal med halvparten av perioden til inngangssignalet, kan vi integrere i intervallet $0 < t < 10\text{ms}$ for å finne DC-verdien. Nullpunktene til funksjonen $10\cdot \sin (50\cdot 2 \cdot \pi \cdot t) - 1.4$ er $t = 0.000447\text{s}$ og $t = 0.00955\text{s}$. Vi regner for DC-verdien.
 \[
-V_{DC} = \frac{1}{0.01} \int_{0.000447}^{0.00955} (10\sin (100\pi t) - 1.4) \, dt \rightarrow V_{DC} = 5.04\text{V}
+V_{DC} = \frac{1}{0.01} \int_{0.000447}^{0.00955} (10\sin (100\pi t) - 1.4)  dt \rightarrow V_{DC} = 5.04\text{V}
 \]
 
 
@@ -1282,3 +1368,5 @@ Kretsen i figur~\ref{fig:krets6} er en toveis likeretterkrets som bruker en kond
 \Delta V_{ripple} = \frac{I_L}{f C} = \frac{V_{DC}}{R_L f C}
 \]
 \noindent kan vi se at rippelspenningen $\Delta V_{ripple}$ vil reduseres ved å øke kapasitansen $C$ til kondensatoren. Dette skyldes at en større kapasitans vil kunne lagre mer energi og dermed bedre opprettholde en konstant spenning over lasten.
+\\[1em]
+I forsøket vil vi teste kondensator med kapasitanser $10\mu\text{F}$ og $100\mu\text{F}$. Det vi forventer er at rippleverdien er mindre ved $100\mu\text{F}$ på grunn av kondensatorens evne til å lagre mer energi. Da vil vi også forvente en høyere DC-verdi for kretsen med $100\mu\text{F}$.
