@@ -1,10 +1,15 @@
 \section{Gjennomføring med måleresultater}
-I denne seksjonen presenteres måleresultater for alle kretsene som er koblet opp i forsøket. For hver krets presenteres en kort beskrivelse av fremgangsmåten for oppkobling og måling, etterfulgt av en grafisk fremstilling av målingen på oscilloskopet. I tillegg kommenteres resultatene for hver krets, hvor det gir en kort vurdering av om resultatet er som forventet og om det er noen avvik fra det teoretiske resultatet. Diskusjoner knyttet til resultatene vil bli presentert i diskusjonsseksjonen senere i rapporten.
+I denne seksjonen presenteres måleresultater for alle kretsene som er koblet opp i forsøket. For hver krets presenteres en kort beskrivelse av fremgangsmåten for oppkobling og måling, oscilloskopbilde, etterfulgt av en grafisk fremstilling av målingen på oscilloskopet for å enklere fremstille verdier på akser. I tillegg kommenteres resultatene for hver krets, hvor det gir en kort vurdering av om resultatet er som forventet og om det er noen avvik fra det teoretiske resultatet. Diskusjoner knyttet til resultatene vil bli presentert i diskusjonsseksjonen senere i rapporten.
 
 \subsection{Krets 1 -- enveis klippekrets}
 Fremgangsmåten for å koble opp denne kretsen blir å bruke komponentene i krets~\ref{fig:krets1} og koble dem opp på et breadboard. Signalgeneratoren stilles inn på en sinusformet spenning med toppverdi $10\,\mathrm{V}$ og frekvens $50\,\mathrm{Hz}$. Deretter bruker vi en motstand på $180\,\Omega$ i serie med dioden. For å måle klippekretsspenningen, bruker vi oscilloskopet. En kanal kobles til inngangsspenningen, og en annen kanal kobles over dioden. Resultatet av én periode er i figuren under.
 
-\vspace{3em}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Media/krets1.jpg}
+    \caption{Oscillskopbilde av utgangsspenning i krets 1}\label{fig:krets1-oscillskop}
+\end{figure}
+
 
 \begin{figure}[H]
 \centering
@@ -109,12 +114,15 @@ Fremgangsmåten for å koble opp denne kretsen blir å bruke komponentene i kret
 \noindent
 \paragraph{Kommentar til resultatet. } Utgangsspenningen klippes ved $800\,\mathrm{mV}$, som er omtrent det vi forventer for en silisiumdiode. Den negative halvbølgen følger inngangsspenningen. Måleresultatet for denne kretsen er som forventet og har ingen store avvik fra det teoretiske resultatet.
 
-\clearpage
-
 \subsection{Krets 2 -- toveis klippekrets}
 For å koble opp kretsen benytter vi komponentene i krets 2 (se figur~\ref{fig:krets2}). Signalgeneratoren bruker innstillingen for en sinusformet spenning med toppverdi $10\,\mathrm{V}$ og frekvens $50\,\mathrm{Hz}$. Vi bruker en motstand på $180\,\Omega$ i serie med to parallellkoblet dioder. Diodene skal være orientert i motstatt retning av hverandre. Oscilloskopet bruker en kanal for å måle inngangsspenningen, og en kanal for å måle over diodene. Måleresultatet er i figur~\ref{fig:resultat_krets2}.
 
-\vspace{3em}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Media/krets2.jpg}
+    \caption{Oscillskopbilde av utgangsspenning i krets 2}\label{fig:krets2-oscillskop}
+\end{figure}
+
 
 \begin{figure}[H]
 \centering
@@ -269,6 +277,12 @@ For å koble opp kretsen benytter vi komponentene i krets 2 (se figur~\ref{fig:k
 
 Signalgeneratoren bruker innstillingene for en sinusformet spenning med toppverdi $10\,\mathrm{V}$ og frekvens $50\,\mathrm{Hz}$. Vi bruker en motstand på $180\,\Omega$ i serie med to zenordioder. Den ene zenordioden har zenorspenning på $4.7\,\mathrm{V}$ og den andre har zenorspenning på $6.8\,\mathrm{V}$. Diodene skal være plassert og orientert slik i kretsfremstillingen i figur~\ref{fig:krets3}. Oscilloskopet bruker en kanal for å måle inngangsspenningen, og en kanal for å måle over zenordiodene i serie. Måleresultatet er i figur~\ref{fig:resultat_krets3}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Media/krets3.jpg}
+    \caption{Oscillskopbilde av utgangsspenning i krets 3}\label{fig:krets3-oscillskop}
+\end{figure}
+
 
 \begin{figure}[H]
 \centering
@@ -391,7 +405,27 @@ Signalgeneratoren bruker innstillingene for en sinusformet spenning med toppverd
 
 I denne delen av forsøket kobler vi opp krets 4 (se figur~\ref{fig:krets4}). Signalgeneratoren bruker innstillingene for en sinusformet spenning med toppverdi $10\,\mathrm{V}$ og frekvens $50\,\mathrm{Hz}$. Vi bruker en motstand på $1\,\mathrm{k\Omega}$ i serie med en diode. Dioden og motstanden plasseres slik i kretsen. Oscilloskopet bruker en kanal for å måle inngangsspenningen fra signalgeneratoren, og en kanal over motstanden. Måleresultatet for den positive likeretteren kommer når dioden er orientert som i krets 4, og måleresultatet for den negative likeretteren kommer når dioden er snudd i forhold til krets 4. Resultatene er i figur~\ref{fig:resultat_krets4_diode_begge}.
 
-\vspace{2em}
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Media/krets4_pos.jpg}
+    \caption{Positiv halvbølge}
+    \label{fig:krets4_pos-oscillskop}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Media/krets4_neg.jpg}
+    \caption{Negativ halvbølge}
+    \label{fig:krets4_neg-oscillskop}
+\end{subfigure}
+
+\caption{Oscilloskopbilder av utgangsspenning i krets 4}
+\label{fig:krets4_oscilloskop}
+\end{figure}
+
 
 \begin{figure}[H]
 \centering
@@ -500,7 +534,11 @@ $V_{DC} \: \left(-\right)$ & $-2.84\text{V}$ & $-2.83\text{V}$ & 0.35\% \\
 
 For å oppnå formålet med en toveis likeretter, benytter vi teorien for en enkel diodebro og kobler opp krets 5 (se figur~\ref{fig:krets5}). Signalgeneratoren bruker innstillingene for en sinusformet spenning med toppverdi $10\,\mathrm{V}$ og frekvens $50\,\mathrm{Hz}$. Vi bruker en motstand på $1\,\mathrm{k\Omega}$ i serie med fire dioder som er koblet i en brokonfigurasjon slik som i teori for toveis likeretter (se seksjon~\ref{sec:toveis_likeretter}). Oscilloskopet bruker en kanal for å måle inngangsspenningen, og en kanal for å måle over motstanden. Resultatet er i figur~\ref{fig:resultat_krets5_uten_transformator}.
 
-\vspace{3em}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Media/krets5_ingen_transformator.jpg}
+    \caption{Oscillskopbilde av utgangsspenning i krets 5}\label{fig:krets5_ingen_transformator-oscillskop}
+\end{figure}
 
 \begin{figure}[H]
 \centering
@@ -633,7 +671,13 @@ $V_{DC}$ & $5.04\text{V}$ & $2.54\text{V}$ & 49.6\% \\
 
 \paragraph{Bruk av transformator. } Fremgangsmåten for å koble opp krets 5 med transformator er i utgangspunktet lik som uten transformator. Forskjellen er at signalgeneratoren ikke benyttes. I stedet kobler vi en transformator til strømnettet, og bruker den som inngangsspenning for kretsen. For å måle på kretsen må vi passe på jordingsforholdene. Vi kan ikke måle innngangsspenningen samtidig som utgangsspenningen, da dette vil skape en jordingsfeil. I dette forsøket er inngangsspenning og utgangsspenning målt hver for seg og tegnet i samme graf.
 
-\vspace{3em}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Media/krets5_med_transformator.jpg}
+    \caption{Oscillskopbilde av utgangsspenning i krets 5 med bruk av transformator}\label{fig:krets5_med_transformator-oscillskop}
+\end{figure}
+
 
 \begin{figure}[H]
 \centering
@@ -720,6 +764,28 @@ $V_{DC}$ & $11.17\text{V}$ \\
 \subsection{Krets 6 -- toveis likeretter med kondensator}
 
 Vi benytter transformator som inngangsspenning. Oppkoblingen utenom signalgeneratoren, er lik som i kretsen presentert i figur~\ref{fig:krets6}. Vi bruker en motstand på $1\,\mathrm{k\Omega}$ i serie med fire dioder som er koblet i en brokonfigurasjon, og en kondensator. Vi skal foreta målinger i to tilfeller: først med en kondensator på $100\mu\text{F}$, og deretter med en kondensator på $10\mu\text{F}$. Resultatene er i figurene under.
+
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Media/krets6_100.jpg}
+    \caption{Kapasitans på 100pF}
+    \label{fig:krets6_100}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Media/krets6_10.jpg}
+    \caption{Kapasitans på 10pF}
+    \label{fig:krets6_10}
+\end{subfigure}
+
+\caption{Oscilloskopbilder av utgangsspenning i krets 4}
+\label{fig:krets6}
+\end{figure}
 
 \begin{figure}[H]
 \centering
@@ -940,7 +1006,7 @@ $V_{DC} \: \left(10\mu\text{F}\right)$ & $14.57\text{V}$ \\
 \end{tabular}
 \end{table}
 
-\vspace{1em}
+
 
 \paragraph{Kommentar til resultater. } Resultatene er som forventet. Vi kan tydelig se at ved høyere kapasitans, så er ripplet mindre og DC-verdien høyere. Ripple i hver graf er forskjellen mellom toppunkt og bunnpunkt for kondensatorkurven (mellom stiplet grå linjer). For $100\mu\text{F}$ er ripplet på $1.44\,\mathrm{V}$, og for $10\mu\text{F}$ er ripplet på $7.6\,\mathrm{V}$. Grafene og teoretiske verdier samsvarer med hverandre. Resultatene er uten store avvik og er som forventet.
 
