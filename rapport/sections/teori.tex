@@ -6,12 +6,12 @@ I denne seksjonen presenteres det teoretiske grunnlaget for laboratorieøvelsen.
 
 Formålet med denne laboratorieøvelsen er å undersøke hvordan dioder oppfører seg i ulike elektroniske kretser ved vekselspenning (AC). Dette inkluderer analyse av både vanlige dioder og zenerdioder, samt deres anvendelse i klippekretser og likeretterkretser.
 \\[1em]
-Et sentralt mål i øvelsen er å lese av nødvendige diodeparametere fra datablad, og bruke disse i analyse av kretsene. Videre er hensikten å oppnå forståelse for både kobling og virkemåte til klippekretser, enveis og toveis likeretterkretser, samt likeretterkretser med RC-ledd.
+Et sentralt mål i øvelsen er å lese av nødvendige diodeparametere fra datablad. Videre er hensikten å oppnå forståelse for både kobling og virkemåte til klippekretser, enveis og toveis likeretterkretser, samt likeretterkretser med RC-ledd.
 \\[1em]
 Det legges også vekt på å sammenligne teoretiske beregninger med praktiske målinger ved bruk av oscilloskop og multimeter, og dermed vurdere avvik mellom ideelle modeller og virkelige komponenter.
 
 \subsection{Datablad}
-For å kunne bruke silisiumsdiode 1N4148 og zenordioder fra serien BZX55 må vi kjenne til deres nøkkelparametere. Disse parameterne inkluderer blant annet maksimal effekt, zenerspenning, og maksimal fremspenning. Disse verdiene er essensielle for design og analyse av kretser som involverer dioder. Vi kan bla opp i deres respektive datablader for å finne disse verdiene. Datablader i referanser~\cite{datasheetBZX55,datasheet1N4148}.
+For å kunne bruke silisiumsdiode 1N4148 og zenordioder fra serien BZX55 må vi kjenne til deres nøkkelparametere. Disse parameterne inkluderer blant annet maksimal effekt, zenerspenning, og maksimal fremspenning. Disse verdiene er essensielle for design og analyse av kretser som involverer dioder. Vi kan bla opp i deres respektive datablader for å finne disse verdiene~\cite{datasheetBZX55,datasheet1N4148}.
 
 \begin{table}[H]
 \centering
@@ -234,7 +234,7 @@ Ser vi på en silisiumsdiode med silisiumsstruktur, vil doping av silisium med f
 \caption{p-type doping}
 \end{subfigure}
 
-\caption{Illustrasjon av doping i halvledere}
+\caption{Illustrasjon av doping i halvledere.}
 \end{figure}
 
 \noindent
@@ -542,7 +542,7 @@ Klippekretsen konstrueres ved å plassere en diode i serie med en motstand, og d
 
 \end{axis}
 \end{tikzpicture}
-\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:clipper_circuit}. Inngangssignalet $V_{in}$ er sinusformet, mens utgangssignalet $V_{out}$ begrenses til $0.7\mathrm{V}$ når dioden leder.}
+\caption{Inngangs- og utgangsspenning for klippekretsen i figur~\ref{fig:clipper_circuit}.}
 \label{fig:clipper_in_out}
 \end{figure}
 
@@ -949,7 +949,7 @@ Vi vil nå se på seks forskjellige kretser som involverer dioder, og analysere 
     \node at (0, 0)[ground] {};
 \end{circuitikz}
 
-\caption{Enkel klippekrets}\label{fig:krets1}
+\caption{Enkel klippekrets.}\label{fig:krets1}
 \end{figure}
 
 \vspace{1em}
@@ -1026,7 +1026,7 @@ Kretsen i figur~\ref{fig:krets1} er en enkel klippekrets som bruker en enkelt di
     \node at (0, 0)[ground] {};
 
 \end{circuitikz}
-\caption{Toveis klippekrets}\label{fig:krets2}
+\caption{Toveis klippekrets.}\label{fig:krets2}
 \end{figure}
 
 \vspace{1em}
@@ -1108,7 +1108,7 @@ I denne kretsen vil utledet teori for klippekrets i seksjon~\ref{teo:klippekrets
 
 
 \end{circuitikz}
-\caption{Klippekrets med zenerdioder}\label{fig:krets3}
+\caption{Klippekrets med zenerdioder.}\label{fig:krets3}
 \end{figure}
 
 \noindent
@@ -1193,7 +1193,7 @@ Kretsen i figur~\ref{fig:krets3} er en klippekrets som bruker zenerdioder for å
 \node at (0, 0)[ground] {};
 
 \end{circuitikz}
-\caption{Enveis likeretterkrets}\label{fig:krets4}
+\caption{Enveis likeretterkrets.}\label{fig:krets4}
 \end{figure}
 
 Dette er en enkel enveis likeretterkrets kjent fra seksjon~\ref{teo:enveis_likeretter}. Kretsen blokker strøm i negativ retning og tillater strøm i positiv retning. Utgangssignalet $V_{out}(t)$ vil derfor være 0V dersom inngangsignalet er negativt, og vil stige med inngangskurven dersom inngangssignalet er større enn 0.7V. Teoretiske utgangssignalet er identisk til figur~\ref{fig:one_way_rectifier_in_out} i seksjon~\ref{teo:enveis_likeretter}.
@@ -1276,7 +1276,7 @@ Dersom vi flipper dioden for å oppnå en negativ énveis likeretterkrets, vil D
 
 
 \end{circuitikz}
-\caption{Toveis likeretterkrets}\label{fig:krets5}
+\caption{Toveis likeretterkrets.}\label{fig:krets5}
 \end{figure}
 
 \noindent

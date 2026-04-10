@@ -6,57 +6,20 @@ I denne seksjonen diskuterer vi resultatene for hver krets i forhold til teorien
 
 
 
-\paragraph{Krets 1 og 2 -- klippekrets. } Teorien for disse kretsen bygger på en idealisert modell av dioden, der den karakteristiske kurven tilnærmes som en loddrett linje ved $V_D = 0.7\text{V}$ som vist under.
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    width=6cm,
-    height=6cm,
-    axis lines=middle,
-    xlabel={$V_D[\text{V}]$},
-    ylabel={$I_D[\text{mA}]$},
-    xmin=0, xmax=1,
-    ymin=0, ymax=10,
-    xtick={0.7},
-    xticklabels={$0.7$},
-    ytick=\empty,
-    grid=both,
-    grid style={dashed, gray!30}
-]
-
-% Loddrett linje (ideal diode)
-\addplot[
-    red,
-    very thick
-] coordinates {
-    (0.7, 0)
-    (0.7, 10)
-};
-
-\end{axis}
-\end{tikzpicture}
-\caption{Teoretiske karakteristiske kurven til en diode.}\label{fig:idealisertKurveSilisium}
-\end{figure}
-
-\noindent
-Denne modellen avviker fra hva den reelle karakteristiske kurven er. En teoretisk tilnærming av diodens reelle karakteristiske kurve er i figur~\ref{fig:silisiumsDiodeKurve}. Oscilloskopbilde vil derfor være annerledes fra det teoretiske og et slikt avvik i resultatet må forventes. Måleresultatene viser at signalet klippes ved  $800\text{mV}$ i begge kretser, altså høyere enn den teoretiske absoluttverdien på $0.7\text{V}$. Dette samsvarer med den faktiske karakteristiske kurven til dioden: når strømmen gjennom dioden øker, vil også spenningen over den øke. 
-\\[1em]
-Videre observeres det at utgangssignalet begynner å avvike fra inngangssignalet tidligere enn den idealiserte modellen tilsier. Dette skyldes at en praktisk diode begynner å lede gradvis før den når $0.7\text{V}$, i motsetning til den brå overgangen i den idealiserte modellen. Dette forklarer hvorfor den praktiske målingen begynner å avvike fra inngangssignalet ved en lavere spenning enn den teoretiske klippeverdien. For å videre understreke at klippeverdien er forventet høyere. Kan vi se på maksimalstrømmen gjennom kretsen. Vi benytter målte verdier fra oscilloskopet og Ohms lov for å beregne maksimalstrømmen gjennom dioden:
+\paragraph{Krets 1 og 2 -- klippekrets. } Kurvenes form stemmer overrens med det teorien tilsier for klippekretser. Det som avviker fra teorien er at signalet klippes ved  $0.8\text{V}$ i begge kretser, altså høyere enn den teoretiske $0.7\text{V}$. Målingen er derimot ikke urealistisk, på grunn av dens karakteristiske kurve har et slikt arbeidspunkt og det er derfor strømmen gjennom dioden som bestemmer dette. Videre observeres det at utgangssignalet begynner å avvike fra inngangssignalet tidligere enn hva teorien tilsier. Dette skyldes at en praktisk diode begynner å lede gradvis før den når $0.7\text{V}$, i motsetning til den brå overgangen i den idealiserte modellen. For å videre understreke at klippeverdien er forventet høyere i praksis. Kan vi se på maksimalstrømmen gjennom dioden. Vi benytter målte verdier fra oscilloskopet, Ohms lov og Kirchhoffs lover for å beregne maksimalstrømmen gjennom dioden.
 \[
 \begin{aligned}
     I_{\text{max}} &= \frac{V_{in} - V_D}{R} \\
-    I_{\text{max}} &= \frac{5\text{V} - 0.8\text{V}}{180 \Omega} \\ 
-    I_{\text{max}} &\approx 23.3\text{mA}
+    I_{\text{max}} &= \frac{10\text{V} - 0.8\text{V}}{180 \Omega} \\ 
+    I_{\text{max}} &\approx 51\text{mA}
 \end{aligned}
 \]
 \noindent
-I figur~\ref{fig:silisiumsDiodeKurve} kan vi se at ved en strøm på $23.3\text{mA}$, vil spenningen over dioden være omtrent over teoretisk verdi på $0.7\text{V}$, noe som støtter observasjonen av at klippeverdien er høyere enn den idealiserte modellen. Avslutningsvis kan det nevnes at resultatkurvene oppfører seg forventet fra teorien, der $V_{ut}$ klippes på forventet områder. Samlet sett er resultatene fra klippekretsene i god overensstemmelse med forventningene, og de støtter en mer realistisk beskrivelse av diodens karakteristikk.
+I figur~\ref{fig:silisiumsDiodeKurve} kan vi se at ved en strøm på $51\text{mA}$, vil spenningen over dioden være høyere enn $0.7\text{V}$, noe som støtter observasjonen av at klippeverdien er høyere enn den idealiserte modellen. Avslutningsvis kan det nevnes at resultatkurvene oppfører seg forventet fra teorien, der $V_{ut}$ klippes på forventet områder. Samlet sett er resultatene fra klippekretsene i god overensstemmelse med forventningene.
 
 \paragraph{Krets 3 -- zenordioder i klippekrets. } I likhet med resultat for krets 1 og 2, blir det en avrundet kurve i positiv halvbølge. Dette skyldes at spenningen over dioden øker når strømmen gjennom den øker. Zenordiodens karakteristiske kurve i figur~\ref{fig:zenerdiodeKurve} viser at i revers retning, vil ikke spenningen øke noe særlig mer med strømmen, men i fremoverretning vil den oppføre seg i likhet med en vanlig silisiumdiode. Dette forklarer hvorfor utgangssignalet blir litt avrundet, fordi den leder strøm tidligere enn ved $0.7\text{V}$ i fremoverretning og $V_Z$ i reversretning.
 \\[1em]
-Videre kan vi diskutere avvik i toppunktet i utgangssignalet. I positiv halvbølge klippes det på $5.60\text{V}$ i stedet for den teoretiske $5.40\text{V}$. I negativ halvbølge klippes det på $-7.60\text{V}$ i stedet for den teoretiske $-7.50\text{V}$. Dette tilsvarer et avvik på omtrent $3.7\%$ i positiv halvbølge og $1.3\%$ i negativ halvbølge, noe som viser at avviket er størst i positiv retning. Dette kan forklares i forenklet kretser under.
+Videre kan vi diskutere avvik i ekstremalpunktene i utgangssignalet. I positiv halvbølge klippes det på $5.60\text{V}$ i stedet for den teoretiske $5.40\text{V}$. I negativ halvbølge klippes det på $-7.60\text{V}$ i stedet for den teoretiske $-7.50\text{V}$. Dette tilsvarer et avvik på omtrent $3.7\%$ og $1.3\%$, noe som viser at avviket er størst i positiv retning. Dette kan forklares i forenklet kretser under.
 
 \begin{figure}[H]
 \centering
@@ -110,17 +73,19 @@ Videre kan vi diskutere avvik i toppunktet i utgangssignalet. I positiv halvbøl
 Beregner vi strømmen ved ekstremalpunkt inngangsspenning, får vi:
 \[
 \begin{aligned}
-    I\left(+\right) = \frac{10\text{V} - \left(4.7 + 0.7\right)\text{V}}{180 \Omega} &\approx 27.8\text{mA} \\
-    I\left(-\right) = \frac{10\text{V} - \left(6.8 + 0.7\right)\text{V}}{180 \Omega} &\approx 16.1\text{mA}
+    I\left(+\right) = \frac{10\text{V} - \left(4.7 + 0.7\right)\text{V}}{180 \Omega} &\approx 25.6\text{mA} \\
+    I\left(-\right) = \frac{10\text{V} - \left(6.8 + 0.7\right)\text{V}}{180 \Omega} &\approx 13.9\text{mA}
 \end{aligned}
 \]
 
 \noindent
-Dette forklarer en betydelig høyere strøm i positiv halvbølge, noe som vil føre til at spenningen over diodene øker mer i positiv halvbølge. Dette forklarer det høyere avviket i positiv halvbølge sammenlignet med negativ halvbølge. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både fremover- og reversretning.
+Dette forklarer en betydelig høyere strøm i positiv halvbølge, noe som fører til arbeidspunkter høyere på grafen. Dette forklarer avviket mellom positiv halvbølge sammenlignet med negativ halvbølge. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både fremover- og reversretning.
 
-\paragraph{Krets 4 -- enveis likeretter. } I denne kretsen tester vi likeretteren for positiv og negativ halvbølge av inngangssignalet. Signalet oppfører seg som forventet på oscilloskopet, i den form av at den er flat når vi ønsker og gir halvbølge når vi ønsker. Uansett ser vi at ekstremalpunktene ikke er helt som forventet. Tidligere i diskusjonsseksjonen har vi diskutert hvordan spenningsfallet over diodene er større enn $0.7\text{V}$, på grunn av dens faktiske karakteristiske kurve. For positiv enveis likeretter, har vi et ekstremalpunkt som er $9.0\text{V}$, dette avviker $0.3\text{V}$ fra forventet verdi. For negativ enveis likeretter, har vi et ekstremalpunkt som er $-9.28\text{V}$, dette avviker $0.02\text{V}$ fra forventet verdi. Hvorfor avviket er annerledes i tilfellene har ikke et veldig klart svar, men det kan begrunnes delvis i mulige feilkilder.
+\paragraph{Krets 4 -- enveis likeretter. } I denne kretsen tester vi likeretteren for positiv og negativ halvbølge av inngangssignalet. Signalet oppfører seg som forventet på oscilloskopet, i den form av at den er flat når vi ønsker og gir halvbølge når vi ønsker. Uansett ser vi at ekstremalpunktene ikke er helt som forventet. Tidligere i diskusjonsseksjonen har vi diskutert hvordan spenningsfallet over diodene er større enn $0.7\text{V}$, på grunn av dens faktiske karakteristiske kurve. For positiv enveis likeretter, har vi et ekstremalpunkt som er $9.0\text{V}$, dette avviker $0.3\text{V}$ fra forventet verdi. For negativ enveis likeretter, har vi et ekstremalpunkt som er $-9.2\text{V}$, dette avviker $0.1\text{V}$ fra forventet verdi. Hvorfor avviket er annerledes i tilfellene har ikke et veldig klart svar, men det kan begrunnes i mulige feilkilder.
 \\[1em]
-Videre kan vi se på DC-verdiene for utgangssignalene. Fra utgangssignalene forventer vi at negativ likeretter har en høyere absolutt DC-verdi enn positiv likeretter, dette fordi den negative halvbølgen har et ekstremalpunkt som er høyere i absoluttverdi enn det positive ekstremalpunktet. Dette støttes av målingene, der negativ likeretter har en DC-verdi på $-2.83\text{V}$ med $0.35\%$ avvik fra teorien, mens positiv likeretter har en DC-verdi på $2.73\text{V}$ med et avvik på $3.87\%$. Dette avviket støtter teorien om DC-verdi, der den mest nøyaktige likeretteren har nærmest forventet DC-verdi. Integralformelen fra teoriseksjonen kan derfor anses som absolutt pålitelig i beregninger for DC-verdi. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien.
+Undersøker vi frekvensene på signalet ser vi at inngangssignalet har samme frekvens som over lastmostanden. Dette skyldes av at hvert signal opplever toppunkt samtidig, altså én puls over motstanden per periode av inngangssignalet.
+\\[1em]
+Videre kan vi se på DC-verdiene for utgangssignalene. Vi forventer at negativ likeretter har en høyere absolutt DC-verdi enn positiv likeretter, dette fordi den negative halvbølgen har et ekstremalpunkt som er høyere i absoluttverdi enn det positive ekstremalpunktet. Dette støttes av målingene, der negativ likeretter har en DC-verdi på $-2.83\text{V}$ med $0.35\%$ avvik fra teorien, mens positiv likeretter har en DC-verdi på $2.73\text{V}$ med et avvik på $3.87\%$. Dette avviket støtter teorien om DC-verdi, der den mest nøyaktige likeretteren har nærmest forventet DC-verdi. Integralformelen fra teoriseksjonen kan derfor anses som absolutt pålitelig i beregninger for DC-verdi. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien.
 
 \paragraph{Krets 5 -- toveis likeretter. } I denne kretsen tester vi en likeretter for både positiv og negativ halvbølge av inngangssignalet. Resultatene på oscilloskopet er ikke forventet, da kretsen oppfører seg som en positiv enveis likeretter. I tillegg klippes negativ halvbølge ved $-600\text{mV}$, noe som indikerer at den måleinstrumentet måler negative spenninger. Videre kan det nevnes at DC-verdien er målt $2.54\text{V}$ med et avvik på hele $46.6\%$ fra teoriens forventning på $5.04\text{V}$. Disse resultatene er ikke tilfredsstillende, og er ikke til forventning. For å videre diskutere hvorfor dette skjer må vi se på måleinstrumentene. Det ble nevnt kort i kommentar til resultat seksjonen at dette skyldes jordingsfeil.
 \\[1em]
@@ -185,16 +150,16 @@ V_{DC} \approx 11.9\text{V}
 \noindent
 Dette er den teoretiske DC-verdien basert på inngangssignalet målt på oscilloskopet. Det er et avvik på omtrent $6.2\%$ mellom målt DC-verdi og teoretisk DC-verdi, noe som kan forklares med at det praktiske utgangssignalet har ekstremalpunkter som er $0.6\text{V}$ lavere enn teoretisk. Dermed kan vi konkludere med at resultatene for kretsen med transformator er i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av diodens karakteristikk i både fremover- og reversretning.
 
-\paragraph{Krets 6 -- toveis likeretter med kondensator. } I denne kretsen benyttet vi kondensatorer for å glatte ut utgangssignalet. Det vi forventer er at DC-verdien på signalet øker, jo mer vi glatter ut signalet. I teoriseksjon~\ref{teo:glatting_kondensator} presenterte vi formel~\ref{eq:capacitor_ripple}, som forteller at dersom kapasitansen øker vil ripplen minke. Dette støttes av resultatene, der vi ser at for $10\mu\text{F}$ er ripplet på $7.6\,\mathrm{V}$, og for $100\mu\text{F}$ er ripplet på $1.44\,\mathrm{V}$. Videre kan vi se på DC-verdiene, som er $11.2\text{V}$ for $10\mu\text{F}$ og $17.36\text{V}$ for $100\mu\text{F}$. Dette støtter teorien om at ved høyere kapasitans, så er DC-verdien høyere. Og det er akkurat dette som er hensikten med å bruke kondensator i en likeretterkrets, nemlig å øke DC-verdien og redusere rippel. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av hvordan kondensatorer påvirker utgangssignalet i en likeretterkrets.
+\paragraph{Krets 6 -- toveis likeretter med kondensator. } I denne kretsen benyttet vi kondensatorer for å glatte ut utgangssignalet. Det vi forventer er at DC-verdien på signalet øker, jo mer vi glatter ut signalet. I teoriseksjon~\ref{teo:glatting_kondensator} presenterte vi formel~\ref{eq:capacitor_ripple}, som forteller at dersom kapasitansen øker vil ripplen minke. Dette støttes av resultatene, der vi ser at for $10\mu\text{F}$ er ripplet på $7.6\,\mathrm{V}$, og for $100\mu\text{F}$ er ripplet på $1.44\,\mathrm{V}$. Dette gir også matematisk mening, dersom enhver punkt på grafen er høyere vil den gjennomsnittlige verdien være høyere. Videre kan vi se på DC-verdiene, som er $11.2\text{V}$ for $10\mu\text{F}$ og $17.36\text{V}$ for $100\mu\text{F}$. Dette støtter teorien om at ved høyere kapasitans, så er DC-verdien høyere. Og det er akkurat dette som er hensikten med å bruke kondensator i en likeretterkrets, nemlig å øke DC-verdien og redusere rippel. Samlet sett er resultatene for kretsen i god overensstemmelse med forventningene basert på teorien, og de støtter en mer realistisk beskrivelse av hvordan kondensatorer påvirker utgangssignalet i en likeretterkrets.
 
 
 
 \subsubsection{Hovedfunn opp mot hensikt}
 Hensikten med forsøket er å oppnå forståelse for hvordan dioder kan brukes til å forme og omdanne signaler, herunder enveis og toveis likeretting, samt spenningsbegrensning ved hjelp av klippekretser. 
 \\[1em]
-Krets 1, 2 og 3 omhandler spenningsbegrensning i form av klippekretser. De praktiske måleresultatene har vært i god overensstemmelse med teorien, og vi ser at utgangssignalene i praksis blir klippet som forventet. Disse kretsene har dermed gitt en god forståelse for hvordan klippekretser fungerer i praksis og underbygger hensikten med forsøket.
+Krets 1, 2 og 3 omhandler spenningsbegrensning i form av klippekretser. De praktiske måleresultatene har vært i god overensstemmelse med teorien, og vi ser at utgangssignalene i praksis blir klippet som forventet. Uansett, er ikke klippeverdien i likhet med teorien, men det er etter forventning i praktiske scenariorer. Vi har også funnet ut bruksområdet for zenordioder i slike kretser, hvor vi effektivt kan klippe spenningen hvor vi ønsker. Disse kretsene har dermed gitt en god forståelse for hvordan klippekretser fungerer i praksis og underbygger hensikten med forsøket.
 \\[1em]
-Krets 4 og 5 omhandler likeretting, der krets 4 er en enveis likeretter og krets 5 er en toveis likeretter. Resultatene for krets 4 har vært som forventet, og bekrefter hvordan en likeretter fungerer i praksis. For krets 5 ble resultatene derimot ikke som forventet grunnet jordingsfeil. Målingene støttet derfor i utgangspunktet ikke teorien, og hensikten med denne delen av forsøket ble ikke oppnådd. Ved å benytte en transformator og dermed oppnå galvanisk isolasjon, ble imidlertid resultatene i god overensstemmelse med teorien, og hensikten med forsøket kunne likevel oppfylles.
+Krets 4 og 5 omhandler likeretting, der krets 4 er en enveis likeretter og krets 5 er en toveis likeretter. Resultatene for krets 4 har vært som forventet, og bekrefter hvordan en likeretter fungerer i praksis. For krets 5 ble resultatene derimot ikke som forventet grunnet jordingsfeil. Målingene støttet derfor i utgangspunktet ikke teorien, og hensikten med denne delen av forsøket ble ikke oppnådd. Ved å benytte en transformator og dermed oppnå galvanisk isolasjon, ble imidlertid resultatene i god overensstemmelse med teorien, og hensikten med forsøket kunne likevel oppfylles. Det vi tar av hovedfunn her, er hvordan DC-verdien i en toveis likeretter blir større enn i enveis likeretter. Dette er fordi vi utnytter begge halvperioder av inngangssignalet og vi får bedre effektiv utnyttelse av inngangsspenningen.
 \\[1em]
 Krets 6 omhandler glatting av utgangssignalet ved hjelp av kondensatorer. Resultatene viser tydelig at økt kapasitans gir redusert rippel og høyere DC-verdi, noe som er i samsvar med teorien. Dette demonstrerer hvordan kondensatorer effektivt kan brukes til å forbedre kvaliteten på et likerettet signal.
 \\[1em]
